@@ -1,0 +1,22 @@
+.background-content {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+    background-image: url("../../../../assets/fondoContenido.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* menú y footer ocupan lo que necesiten */
+app-menu,
+app-footer {
+  flex-shrink: 0;
+}
+
+/* el contenido ocupa TODO lo restante */
+.content {
+  flex: 1;
+  padding: 10px;
+  padding-top: 40px; /* en vez de margin */
+}

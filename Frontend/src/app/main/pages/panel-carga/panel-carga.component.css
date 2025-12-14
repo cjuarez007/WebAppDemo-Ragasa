@@ -1,0 +1,24 @@
+.info-card {
+  width: 100%;                       /* ocupa todo el ancho disponible del contenedor */
+  max-width: 80%;                     /* mismo max-width que el card de subida */
+  margin: 2rem auto;                  /* centrado y espacio superior/inferior */
+  /* border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 15px; */
+  padding: 1.5rem 2rem;
+  /* box-shadow: 0 8px 24px rgba(0,0,0,0.15); */
+  /* background-color: #f9f9f9; */
+  font-family: 'Montserrat', Arial, Tahoma, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  box-sizing: border-box;             /* importante para padding */
+}
+
+.info-card h1 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #006540;
+}
+
+.info-card p {
+  font-size: 1rem;
+}

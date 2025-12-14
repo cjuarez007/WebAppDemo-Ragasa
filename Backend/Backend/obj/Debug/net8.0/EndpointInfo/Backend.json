@@ -1,0 +1,331 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Backend",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/Admon_Sueldos": {
+      "get": {
+        "tags": [
+          "Admon_Sueldos"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Admon_Sueldos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/AdmonSueldo"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/AdmonSueldo"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/AdmonSueldo"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Admon_Sueldos/{id}": {
+      "get": {
+        "tags": [
+          "Admon_Sueldos"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Admon_Sueldos"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Admon_Sueldos"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AdmonSueldo": {
+        "type": "object",
+        "properties": {
+          "cia": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "tipotrab": {
+            "type": "string",
+            "nullable": true
+          },
+          "nomina": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "puesto": {
+            "type": "string",
+            "nullable": true
+          },
+          "departamento": {
+            "type": "string",
+            "nullable": true
+          },
+          "segmento": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaingreso": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "sueldodiario": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "sueldomensual": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "nivelnum": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "nivel": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipotab": {
+            "type": "string",
+            "nullable": true
+          },
+          "antiguedad": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "vacio": {
+            "type": "string",
+            "nullable": true
+          },
+          "mediatab": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "pra": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "ppa": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "porctab": {
+            "type": "string",
+            "nullable": true
+          },
+          "porcformula": {
+            "type": "string",
+            "nullable": true
+          },
+          "sueldonuevo": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "vacio2": {
+            "type": "string",
+            "nullable": true
+          },
+          "mediatab2": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "nvopra": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "normppa": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "ppaAster": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "tabulador": {
+            "type": "string",
+            "nullable": true
+          },
+          "posicion": {
+            "type": "string",
+            "nullable": true
+          },
+          "sintope": {
+            "type": "string",
+            "nullable": true
+          },
+          "contope": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\cjuarez\\Desktop\\Web Aumentos-Ragasa\\Backend\\Backend\\Backend.csproj": {}
+    "C:\\Users\\Alexsis007\\Desktop\\WebAppDemo-Ragasa\\Backend\\Backend\\Backend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\cjuarez\\Desktop\\Web Aumentos-Ragasa\\Backend\\Backend\\Backend.csproj": {
+    "C:\\Users\\Alexsis007\\Desktop\\WebAppDemo-Ragasa\\Backend\\Backend\\Backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\cjuarez\\Desktop\\Web Aumentos-Ragasa\\Backend\\Backend\\Backend.csproj",
+        "projectUniqueName": "C:\\Users\\Alexsis007\\Desktop\\WebAppDemo-Ragasa\\Backend\\Backend\\Backend.csproj",
         "projectName": "Backend",
-        "projectPath": "C:\\Users\\cjuarez\\Desktop\\Web Aumentos-Ragasa\\Backend\\Backend\\Backend.csproj",
-        "packagesPath": "C:\\Users\\cjuarez\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\cjuarez\\Desktop\\Web Aumentos-Ragasa\\Backend\\Backend\\obj\\",
+        "projectPath": "C:\\Users\\Alexsis007\\Desktop\\WebAppDemo-Ragasa\\Backend\\Backend\\Backend.csproj",
+        "packagesPath": "C:\\Users\\Alexsis007\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Alexsis007\\Desktop\\WebAppDemo-Ragasa\\Backend\\Backend\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\cjuarez\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Alexsis007\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -44,9 +42,9 @@
         "restoreAuditProperties": {
           "enableAudit": "true",
           "auditLevel": "low",
-          "auditMode": "all"
+          "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.100"
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -56,9 +54,21 @@
               "target": "Package",
               "version": "[6.5.1, )"
             },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.4, )"
+            },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[9.0.5, )"
+              "version": "[8.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[10.0.1, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
@@ -84,7 +94,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

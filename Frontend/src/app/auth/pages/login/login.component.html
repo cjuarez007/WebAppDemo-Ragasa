@@ -1,0 +1,42 @@
+<div class="login-container">
+  <p-card class="login-card">
+    <div><h1 style="text-align: center;">Inicio de sesion.</h1></div>
+      <div class="logo-container">
+        <img
+        src="https://www.ragasa.com.mx/wp-content/uploads/2016/12/ragasa_logo-big.png"
+        alt="Ragasa Logo"
+        class="logo-image"
+      />
+      </div>
+    <div class="field">
+      <p-floatLabel>
+        <input
+          id="username"
+          type="text"
+          pInputText
+          
+        />
+        <label for="username">Usuario</label>
+      </p-floatLabel>
+    </div>
+
+    <div class="field">
+      <p-floatLabel>
+        <p-password
+          inputId="password"          
+          [feedback]="false"
+          toggleMask="true">
+        </p-password>
+        <label for="password">Contraseña</label>
+      </p-floatLabel>
+    </div>
+
+    <button
+      pButton
+      type="button"
+      label="Entrar"
+      class="login-button">
+    </button>
+
+  </p-card>
+</div>

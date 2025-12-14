@@ -1,7 +1,24 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\cjuarez\\Desktop\\Web Aumentos-Ragasa\\Backend\\",
-  "Documents": [],
+  "WorkspaceRootPath": "C:\\Users\\Alexsis007\\Desktop\\WebAppDemo-Ragasa\\Backend\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{43D26F8B-9861-43C2-A8F5-748F1C5D00B2}|Backend\\Backend.csproj|c:\\users\\alexsis007\\desktop\\webappdemo-ragasa\\backend\\backend\\data\\dbc_admon_sueldos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43D26F8B-9861-43C2-A8F5-748F1C5D00B2}|Backend\\Backend.csproj|solutionrelative:backend\\data\\dbc_admon_sueldos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43D26F8B-9861-43C2-A8F5-748F1C5D00B2}|Backend\\Backend.csproj|c:\\users\\alexsis007\\desktop\\webappdemo-ragasa\\backend\\backend\\controllers\\admon_sueldoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43D26F8B-9861-43C2-A8F5-748F1C5D00B2}|Backend\\Backend.csproj|solutionrelative:backend\\controllers\\admon_sueldoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43D26F8B-9861-43C2-A8F5-748F1C5D00B2}|Backend\\Backend.csproj|c:\\users\\alexsis007\\desktop\\webappdemo-ragasa\\backend\\backend\\models\\admonsueldo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43D26F8B-9861-43C2-A8F5-748F1C5D00B2}|Backend\\Backend.csproj|solutionrelative:backend\\models\\admonsueldo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43D26F8B-9861-43C2-A8F5-748F1C5D00B2}|Backend\\Backend.csproj|c:\\users\\alexsis007\\desktop\\webappdemo-ragasa\\backend\\backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43D26F8B-9861-43C2-A8F5-748F1C5D00B2}|Backend\\Backend.csproj|solutionrelative:backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 142,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,6 +47,57 @@
             {
               "$type": "Bookmark",
               "Name": "ST:133:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AdmonSueldo.cs",
+              "DocumentMoniker": "C:\\Users\\Alexsis007\\Desktop\\WebAppDemo-Ragasa\\Backend\\Backend\\Models\\AdmonSueldo.cs",
+              "RelativeDocumentMoniker": "Backend\\Models\\AdmonSueldo.cs",
+              "ToolTip": "C:\\Users\\Alexsis007\\Desktop\\WebAppDemo-Ragasa\\Backend\\Backend\\Models\\AdmonSueldo.cs",
+              "RelativeToolTip": "Backend\\Models\\AdmonSueldo.cs",
+              "ViewState": "AgIAACcAAAAAAAAAAAA4wEMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-14T06:17:31.992Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Alexsis007\\Desktop\\WebAppDemo-Ragasa\\Backend\\Backend\\Program.cs",
+              "RelativeDocumentMoniker": "Backend\\Program.cs",
+              "ToolTip": "C:\\Users\\Alexsis007\\Desktop\\WebAppDemo-Ragasa\\Backend\\Backend\\Program.cs",
+              "RelativeToolTip": "Backend\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-14T05:38:30.503Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DBC_admon_sueldos.cs",
+              "DocumentMoniker": "C:\\Users\\Alexsis007\\Desktop\\WebAppDemo-Ragasa\\Backend\\Backend\\Data\\DBC_admon_sueldos.cs",
+              "RelativeDocumentMoniker": "Backend\\Data\\DBC_admon_sueldos.cs",
+              "ToolTip": "C:\\Users\\Alexsis007\\Desktop\\WebAppDemo-Ragasa\\Backend\\Backend\\Data\\DBC_admon_sueldos.cs",
+              "RelativeToolTip": "Backend\\Data\\DBC_admon_sueldos.cs",
+              "ViewState": "AgIAAGMAAAAAAAAAAAAgwIgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-14T05:33:57.347Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Admon_SueldosController.cs",
+              "DocumentMoniker": "C:\\Users\\Alexsis007\\Desktop\\WebAppDemo-Ragasa\\Backend\\Backend\\Controllers\\Admon_SueldosController.cs",
+              "RelativeDocumentMoniker": "Backend\\Controllers\\Admon_SueldosController.cs",
+              "ToolTip": "C:\\Users\\Alexsis007\\Desktop\\WebAppDemo-Ragasa\\Backend\\Backend\\Controllers\\Admon_SueldosController.cs",
+              "RelativeToolTip": "Backend\\Controllers\\Admon_SueldosController.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAgwCEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-14T02:58:35.116Z",
+              "EditorCaption": ""
             }
           ]
         }

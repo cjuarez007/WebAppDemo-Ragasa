@@ -1,0 +1,58 @@
+/* Menubar principal */
+:host ::ng-deep .p-menubar {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);  /* sombra profunda */
+  /*border-radius: 15px;                         /* esquinas redondeadas */
+  border: 1px solid rgba(0, 0, 0, 0.2);       /* borde sutil */
+  padding: 0.5rem 1rem;                        /* espacio interno */  
+  color: white;                                /* letras blancas */
+  font-family: 'Montserrat', Arial, Tahoma, sans-serif; /* tipografía consistente */
+  transition: all 0.3s ease;                  /* transición suave */
+}
+
+/* Items del Menubar */
+:host ::ng-deep .p-menubar .p-menuitem-link {
+  color: white;                                /* color de texto normal */
+  font-family: 'Montserrat', Arial, Tahoma, sans-serif;
+  transition: color 0.3s ease;
+}
+
+/* Hover sobre cada item */
+:host ::ng-deep .p-menubar .p-menuitem-link:hover {
+  color: yellow;                               /* cambia texto a amarillo al hover */
+}
+
+
+/* Mueve el botón toggler (hamburguesa) a la derecha en modo móvil */
+:host ::ng-deep .p-menubar .p-menubar-mobile-button {
+  order: 2;                /* lo colocamos después del logo */
+  margin-left: auto;        /* empuja a la derecha */
+}
+
+/* Asegúrate de que el logo quede a la izquierda */
+:host ::ng-deep .p-menubar .p-menubar-start {
+  order: 1;
+}
+
+
+/* Overlay del menú desplegable */
+:host ::ng-deep .p-menubar .p-menu-overlay {
+  background-color: #ffffff;             /* mismo fondo que el menubar */
+  border-radius: 12px;                   /* esquinas redondeadas */
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3); /* sombra consistente */
+  border: 1px solid rgba(0,0,0,0.2);    /* borde sutil */
+  margin-top: 0.5rem;                    /* espacio debajo del menú */
+}
+
+/* Items dentro del menú desplegable */
+:host ::ng-deep .p-menubar .p-menuitem-link {
+  border-radius: 8px;                    /* suaviza los bordes de cada item */
+  padding: 0.5rem 1rem;                  /* más espacio interno */
+  color: black;
+}
+
+/* Hover de los items */
+:host ::ng-deep .p-menubar .p-menuitem-link:hover {  
+  color: yellow;                         /* texto amarillo al pasar mouse */
+}
+
+

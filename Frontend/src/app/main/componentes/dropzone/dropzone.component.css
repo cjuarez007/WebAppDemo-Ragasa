@@ -1,0 +1,148 @@
+:host {
+  display: block;
+  max-width: 80%;   /* ocupa 90% del ancho de la pantalla */
+  margin: auto;
+}
+
+
+.mt-3 {
+  margin-top: 1rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+
+/* Configuracion para que el boton de carga tome todo el espacio posible  */
+:host ::ng-deep .p-fileupload-buttonbar {
+  width: 100%;
+}
+
+:host ::ng-deep .p-fileupload-choose {
+  width: 100%;
+  justify-content: center;
+}
+
+
+/* Borrar boton de cancelar al subir archivo */
+:host ::ng-deep .p-fileupload-row .p-button-icon-only {
+  display: none !important;
+}
+
+
+/* ocultamos recuadro debajo del boton de carga*/
+:host ::ng-deep .p-fileupload-content {
+  display: none;
+}
+
+/* cambio de colores de botones */
+/* Estilo base del botón */
+.p-button {
+  background-color: #006540;  /* Fondo verde oscuro */
+  color: white;               /* Color de texto normal */
+  border: none;               /* Opcional: quitar borde */
+}
+
+/* Hover: cuando el mouse está encima */
+.p-button:hover {
+  background-color: #006540; /* Mantener mismo fondo si quieres */
+  color: yellow;             /* Cambiar texto a amarillo */
+}
+/* Aplica al botón de elegir archivo */
+.p-fileupload-choose {
+  background-color: #006540 !important;  /* fondo verde */
+  color: white !important;               /* texto blanco */
+}
+
+/* Hover */
+.p-fileupload-choose:hover {
+  color: yellow !important;              /* texto amarillo al pasar el mouse */
+  background-color: #006540 !important;  /* mantienes fondo igual */
+}
+.p-fileupload-upload {
+  background-color: #006540 !important;
+  color: white !important;
+}
+
+.p-fileupload-upload:hover {
+  color: yellow !important;
+}
+
+/* Aplica al botón "Seleccionar archivo" de p-fileUpload */
+:host ::ng-deep .p-fileupload-choose {
+  background-color: #006540 !important; /* verde */
+  color: white !important;              /* texto blanco */
+}
+
+/* Hover */
+:host ::ng-deep .p-fileupload-choose:hover {
+  color: yellow !important;             /* texto amarillo al pasar mouse */
+  background-color: #006540 !important; /* mantiene fondo */
+}
+
+/* Opcional: botón "Procesar" si lo habilitas más tarde */
+:host ::ng-deep .p-fileupload-upload {
+  background-color: #006540 !important;
+  color: white !important;
+}
+
+:host ::ng-deep .p-fileupload-upload:hover {
+  color: yellow !important;
+}
+
+
+/* extencion del espacio del recuadro de subida */
+/* Contenedor principal del fileUpload */
+:host ::ng-deep .p-fileupload.p-fileupload-advanced {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Contenedor que PrimeNG usa para envolver los elementos internos */
+:host ::ng-deep .p-fileupload.p-fileupload-advanced > div {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* La barra de botones */
+:host ::ng-deep .p-fileupload-buttonbar {
+  width: 100% !important;
+  display: flex !important;
+  justify-content: center; /* centra el botón */
+}
+
+/* Botón de elegir archivo ocupa todo el ancho disponible */
+:host ::ng-deep .p-fileupload-choose {
+  width: 80% !important; /* puedes poner 100% si quieres que ocupe todo */
+  max-width: 500px;      /* opcional para no estirarlo demasiado */
+  text-align: center;
+}
+
+:host ::ng-deep .p-card {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+/* Aplica Montserrat a botones dentro del componente */
+:host ::ng-deep button.p-button,
+:host ::ng-deep .p-fileupload-choose,
+:host ::ng-deep .p-fileupload-upload {
+  font-family: "Montserrat", Arial, Tahoma, sans-serif !important;
+}
+
+/* Aplica Montserrat a la tabla de previsualización */
+:host ::ng-deep p-table,
+:host ::ng-deep .p-datatable,
+:host ::ng-deep .p-datatable th,
+:host ::ng-deep .p-datatable td {
+  font-family: "Montserrat", Arial, Tahoma, sans-serif !important;
+}
+
+/* styles.css global */
+body, h1, h2, h3, h4, h5, h6, p, table, th, td, button {
+  font-family: "Montserrat", Arial, Tahoma, sans-serif;
+}
+
+:host ::ng-deep .p-card {
+  font-family: 'Montserrat', Arial, Tahoma, sans-serif;
+}
