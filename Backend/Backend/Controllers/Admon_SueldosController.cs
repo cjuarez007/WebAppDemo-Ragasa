@@ -1,6 +1,7 @@
 ﻿using Backend.Data;
 using Backend.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -37,6 +38,9 @@ namespace Backend.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            // TRUNCATE antes de insertar
+            await _context.Database.ExecuteSqlRawAsync("TRUNCATE TABLE admon_sueldos");
 
             _context.AdmonSueldos.AddRange(items);
             await _context.SaveChangesAsync();

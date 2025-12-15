@@ -3,9 +3,14 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Configurar servicios
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        // Mantener nombres de propiedades tal cual (no camelCase)
+        options.JsonSerializerOptions.PropertyNamingPolicy = null;
+    });
 
-builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -21,6 +26,7 @@ builder.Services.AddCors(options =>
                 .AllowAnyMethod();
         });
 });
+
 
 
 // Asignacion de ConnectionString a los DBContext

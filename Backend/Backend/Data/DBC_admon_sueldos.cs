@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Backend.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,28 +6,21 @@ namespace Backend.Data;
 
 public partial class DBC_admon_sueldos : DbContext
 {
-    public DBC_admon_sueldos()
-    {
-    }
+    public DBC_admon_sueldos() { }
 
     public DBC_admon_sueldos(DbContextOptions<DBC_admon_sueldos> options)
-        : base(options)
-    {
-    }
+        : base(options) { }
 
     public virtual DbSet<AdmonSueldo> AdmonSueldos { get; set; }
-
-//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseSqlServer("Server=DESKTOP-KC7649P\\ALEXSIS007;Database=demo_web;Trusted_Connection=True;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<AdmonSueldo>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("admon_sueldos");
+            entity.HasKey(e => e.ID); // ahora EF sabe la PK
+            entity.ToTable("admon_sueldos");
+
+            entity.Property(e => e.ID).HasColumnName("ID");
 
             entity.Property(e => e.Antiguedad).HasColumnName("antiguedad");
             entity.Property(e => e.Cia).HasColumnName("cia");

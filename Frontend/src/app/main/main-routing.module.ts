@@ -11,7 +11,7 @@ const routes: Routes = [
     children: [
       {path:'Panel-Carga', component: PanelCargaComponent},
       {path:'Panel-Incrementos', component: PanelIncrementosComponent},
-      {path:'**',redirectTo:'Panel-Carga', pathMatch:'full'}
+      {path:'',redirectTo:'Panel-Carga', pathMatch:'full'}
 
     ]
   }

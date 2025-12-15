@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import * as XLSX from 'xlsx';
-import { AdmonSueldosService } from '../../services/admon-sueldos.service';
+import { HttpClient } from '@angular/common/http';
 
 interface AdmonSueldo {
   cia: number | null;
@@ -21,15 +21,15 @@ interface AdmonSueldo {
   mediatab: number | null;
   pra: number | null;
   ppa: number | null;
-  porctab: string | null;
-  porcformula: string | null;
+  porctab: number | null;
+  porcformula: number | null;
   sueldonuevo: number | null;
   vacio2: string | null;
   mediatab2: number | null;
   nvopra: number | null;
   normppa: number | null;
   ppa_aster: number | null;
-  tabulador: string | null;
+  tabulador: number | null;
   posicion: string | null;
   sintope: string | null;
   contope: string | null;
@@ -38,112 +38,142 @@ interface AdmonSueldo {
 @Component({
   selector: 'component-dropzone',
   templateUrl: './dropzone.component.html',
-  styleUrl: './dropzone.component.css'
+  styleUrls: ['./dropzone.component.css']
 })
 export class DropzoneComponent {
-
-  rawData: any[] = [];        // datos crudos del excel
+  excelData: any[] = [];
   previewData: any[] = [];
   columns: string[] = [];
 
-  private admonSueldosService = inject(AdmonSueldosService);
+  constructor(private http: HttpClient) {}
 
   onFileSelect(event: any) {
-    const file: File = event.files?.[0];
+    const file = event.files ? event.files[0] : event.target.files[0];
     if (!file) return;
 
-    const extension = file.name.split('.').pop()?.toLowerCase();
-
-    if (extension === 'csv') {
-      this.readCSV(file);
-    } else if (extension === 'xlsx') {
-      this.readXLSX(file);
-    }
-  }
-
-  private processSheet(sheet: XLSX.WorkSheet) {
-    this.rawData = XLSX.utils.sheet_to_json(sheet, { defval: null });
-
-    this.columns = this.rawData.length
-      ? Object.keys(this.rawData[0])
-      : [];
-
-    this.previewData = this.rawData.slice(0, 10);
-  }
-
-  readCSV(file: File) {
     const reader = new FileReader();
-
-    reader.onload = (e: any) => {
-      const text = e.target.result;
-      const workbook = XLSX.read(text, { type: 'string' });
-      const sheet = workbook.Sheets[workbook.SheetNames[0]];
-      this.processSheet(sheet);
-    };
-
-    reader.readAsText(file);
-  }
-
-  readXLSX(file: File) {
-    const reader = new FileReader();
-
     reader.onload = (e: any) => {
       const data = new Uint8Array(e.target.result);
       const workbook = XLSX.read(data, { type: 'array' });
       const sheet = workbook.Sheets[workbook.SheetNames[0]];
-      this.processSheet(sheet);
-    };
 
+      // Convertir a JSON, manteniendo celdas vacías
+      this.excelData = XLSX.utils.sheet_to_json(sheet, { defval: null });
+
+      // Preview (primeras 10 filas)
+      this.previewData = this.excelData.slice(0, 10);
+
+      // Columnas dinámicas
+      this.columns = Object.keys(this.previewData[0] || {});
+    };
     reader.readAsArrayBuffer(file);
   }
 
-  private mapRow(row: any): AdmonSueldo {
-    return {
-      cia: row.cia ? Number(row.cia) : null,
-      tipotrab: row.tipotrab ?? null,
-      nomina: row.nomina ? Number(row.nomina) : null,
-      nombre: row.nombre ?? null,
-      puesto: row.puesto ?? null,
-      departamento: row.departamento ?? null,
-      segmento: row.segmento ?? null,
-      fechaingreso: row.fechaingreso
-        ? new Date(row.fechaingreso).toISOString()
-        : null,
+  private parseNumber(v: any): number | null {
+    if (v === null || v === undefined) return null;
+    if (typeof v === 'string') {
+      v = v.replace(/\./g, '').replace(/,/g, '.').replace(/%/g, '');
+    }
+    const n = Number(v);
+    return isNaN(n) ? null : n;
+  }
 
-      sueldodiario: row.sueldodiario ? Number(row.sueldodiario) : null,
-      sueldomensual: row.sueldomensual ? Number(row.sueldomensual) : null,
-      nivelnum: row.nivelnum ? Number(row.nivelnum) : null,
-      nivel: row.nivel ?? null,
-      tipotab: row.tipotab ?? null,
-      antiguedad: row.antiguedad ? Number(row.antiguedad) : null,
-      vacio: row.vacio ?? null,
-      mediatab: row.mediatab ? Number(row.mediatab) : null,
-      pra: row.pra ? Number(row.pra) : null,
-      ppa: row.ppa ? Number(row.ppa) : null,
-      porctab: row.porctab ?? null,
-      porcformula: row.porcformula ?? null,
-      sueldonuevo: row.sueldonuevo ? Number(row.sueldonuevo) : null,
-      vacio2: row.vacio2 ?? null,
-      mediatab2: row.mediatab2 ? Number(row.mediatab2) : null,
-      nvopra: row.nvopra ? Number(row.nvopra) : null,
-      normppa: row.normppa ? Number(row.normppa) : null,
-      ppa_aster: row.ppa_aster ? Number(row.ppa_aster) : null,
-      tabulador: row.tabulador ?? null,
-      posicion: row.posicion ?? null,
-      sintope: row.sintope ?? null,
-      contope: row.contope ?? null
+  private parsePercent(v: any): number | null {
+    const n = this.parseNumber(v);
+    return n !== null ? n / 100 : null;
+  }
+
+  private parseDate(v: any): string | null {
+    if (!v) return null;
+
+    if (typeof v === 'number') {
+      return new Date((v - 25569) * 86400 * 1000).toISOString();
+    }
+
+    if (typeof v === 'string') {
+      const parts = v.split('/');
+      if (parts.length === 3) {
+        const [dd, mm, yyyy] = parts.map(Number);
+        const d = new Date(yyyy, mm - 1, dd);
+        return isNaN(d.getTime()) ? null : d.toISOString();
+      }
+      const d = new Date(v);
+      return isNaN(d.getTime()) ? null : d.toISOString();
+    }
+
+    return null;
+  }
+
+  private mapRow(row: any): AdmonSueldo {
+    const map: { [key: string]: string[] } = {
+      cia: ['Cia', 'cia'],
+      tipotrab: ['TipoTrab', 'Tipo Trab', 'tipotrab'],
+      nomina: ['Nomina', 'nomina'],
+      nombre: ['Nombre', 'nombre'],
+      puesto: ['Puesto', 'puesto'],
+      departamento: ['Departamento', 'departamento'],
+      segmento: ['Segmento', 'segmento'],
+      fechaingreso: ['FechaIngreso', 'Fecha ingreso', 'fechaingreso'],
+      sueldodiario: ['SueldoDiario', 'Sueldo diario', 'sueldodiario'],
+      sueldomensual: ['SueldoMensual', 'Sueldo mensual', 'sueldomensual'],
+      nivelnum: ['NivelNum', 'Nivel num', 'nivelnum'],
+      nivel: ['Nivel', 'nivel'],
+      tipotab: ['Tipotab', 'Tipo Tab', 'tipotab'],
+      antiguedad: ['Antiguedad', 'Antigüedad', 'antiguedad'],
+      vacio: ['Vacio', 'vacio'],
+      mediatab: ['Mediatab', 'MEDIA TAB', 'mediatab'],
+      pra: ['Pra', 'PRA', 'pra'],
+      ppa: ['Ppa', 'PPA', 'ppa'],
+      porctab: ['Porctab', 'Porc. Tab', 'porctab'],
+      porcformula: ['Porcformula', 'Porc. Fórmula', 'porcformula'],
+      sueldonuevo: ['Sueldonuevo', 'Sueldo nuevo', 'sueldonuevo'],
+      vacio2: ['Vacio2', 'vacio2'],
+      mediatab2: ['Mediatab2', 'MEDIA TAB', 'mediatab2'],
+      nvopra: ['Nvopra', 'NVO PRA', 'nvopra'],
+      normppa: ['Normppa', 'Norm PPA', 'normppa'],
+      ppa_aster: ['PpaAster', 'PPA*', 'ppa_aster'],
+      tabulador: ['Tabulador', 'tabulador'],
+      posicion: ['Posición', 'posicion'],
+      sintope: ['Sin Tope', 'sintope'],
+      contope: ['Con Tope', 'contope']
     };
+
+    const getValue = (keys: string[]): any => {
+      for (const k of keys) {
+        if (row[k] !== undefined && row[k] !== '') return row[k];
+      }
+      return null;
+    };
+
+    const result: any = {};
+    for (const prop in map) {
+      let val = getValue(map[prop]);
+      if (['cia','nomina','sueldodiario','sueldomensual','nivelnum','antiguedad','mediatab','pra','ppa','sueldonuevo','mediatab2','nvopra','normppa','ppa_aster','tabulador'].includes(prop)) {
+        val = this.parseNumber(val);
+      }
+      if (['porctab','porcformula'].includes(prop)) {
+        val = this.parsePercent(val);
+      }
+      if (prop === 'fechaingreso') val = this.parseDate(val);
+      result[prop] = val;
+    }
+    return result as AdmonSueldo;
   }
 
   sendToApi() {
-    const payload: AdmonSueldo[] = this.rawData.map(r => this.mapRow(r));
+    if (!this.excelData.length) return alert('No hay datos para enviar');
 
-    console.log('Payload final:', payload);
+    const payload = this.excelData.map(row => this.mapRow(row));
 
-    this.admonSueldosService.addAdmonSueldos(payload)
+    console.log('Payload a enviar:', payload);
+
+    this.http.post('http://localhost:5094/api/Admon_Sueldos', payload)
       .subscribe({
-        next: res => console.log('INSERTADOS:', res),
-        error: err => console.error('ERROR API:', err)
+        next: res => alert('Datos insertados correctamente'),
+        error: err => {
+          console.error('ERROR API:', err);
+          alert('Error al insertar datos. Revisa consola.');
+        }
       });
   }
 }

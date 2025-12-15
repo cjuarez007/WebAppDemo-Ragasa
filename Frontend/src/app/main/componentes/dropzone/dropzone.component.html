@@ -1,6 +1,13 @@
 <div>
+  <p-card header="Carga de datos admon saldos.">
+    
+    <p>
+        Para iniciar el proceso de carga de <strong>admon sueldos</strong>, seleccione un archivo en formato
+        <strong>CSV</strong> o <strong>Excel (.xlsx)</strong> utilizando el botón que aparece a continuación.
+        <br>
+        Este le permitirá buscar y elegir el archivo correspondiente desde su equipo.
+    </p>
 
-  <p-card header="Carga de archivo">
 
     <p-fileUpload
       mode="advanced"
@@ -42,12 +49,12 @@
     </p-table>
 
     <!-- INFO -->
-    <div class="mt-3 text-center" *ngIf="rawData.length">
-      <p>{{ rawData.length }} registros cargados</p>
+    <div class="mt-3 text-center" *ngIf="previewData.length">
+      <p>Mostrando los primeros {{ previewData.length }} registros.</p>
     </div>
 
     <!-- BOTÓN FINAL -->
-    <div class="mt-3 text-center" *ngIf="rawData.length">
+    <div class="mt-3 text-center" *ngIf="previewData.length">
       <button
         pButton
         label="Iniciar carga de datos"
@@ -56,7 +63,5 @@
         (click)="sendToApi()">
       </button>
     </div>
-
   </p-card>
-
 </div>

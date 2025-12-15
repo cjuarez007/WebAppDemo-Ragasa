@@ -14,47 +14,28 @@ export class MenuComponent implements OnInit {
         this.items = [
             {
                 label: 'Home',
-                icon: 'pi pi-home'
+                icon: 'pi pi-home',
+                url: './main/Panel-Carga'
             },
             {
-                label: 'Features',
-                icon: 'pi pi-star'
-            },
+                label: 'Panel de Carga',
+                icon: 'pi pi-file-arrow-up',
+                url: './main/Panel-Carga'
+            },          
             {
-                label: 'Projects',
-                icon: 'pi pi-search',
-                items: [
-                    {
-                        label: 'Components',
-                        icon: 'pi pi-bolt'
-                    },
-                    {
-                        label: 'Blocks',
-                        icon: 'pi pi-server'
-                    },
-                    {
-                        label: 'UI Kit',
-                        icon: 'pi pi-pencil'
-                    },
-                    {
-                        label: 'Templates',
-                        icon: 'pi pi-palette',
-                        items: [
-                            {
-                                label: 'Apollo',
-                                icon: 'pi pi-palette'
-                            },
-                            {
-                                label: 'Ultima',
-                                icon: 'pi pi-palette'
-                            }
-                        ]
-                    }
-                ]
-            },
+                label: 'Panel de Incrementos',
+                icon: 'pi pi-file-edit',
+                url: './main/Panel-Incrementos'
+            },          
             {
-                label: 'Contact',
-                icon: 'pi pi-envelope'
+                label: 'Panel de Gestion',
+                icon: 'pi pi-chart-pie',
+                url: './main/Panel-Incrementos'
+            },          
+            {
+                label: 'Panel Resumen',
+                icon: 'pi pi-chart-bar',
+                url: './main/Panel-Incrementos'
             }
         ]
     }
