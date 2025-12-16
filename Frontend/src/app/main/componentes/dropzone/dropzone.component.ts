@@ -1,39 +1,9 @@
 import { Component } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { HttpClient } from '@angular/common/http';
-
-interface AdmonSueldo {
-  cia: number | null;
-  tipotrab: string | null;
-  nomina: number | null;
-  nombre: string | null;
-  puesto: string | null;
-  departamento: string | null;
-  segmento: string | null;
-  fechaingreso: string | null;
-  sueldodiario: number | null;
-  sueldomensual: number | null;
-  nivelnum: number | null;
-  nivel: string | null;
-  tipotab: string | null;
-  antiguedad: number | null;
-  vacio: string | null;
-  mediatab: number | null;
-  pra: number | null;
-  ppa: number | null;
-  porctab: number | null;
-  porcformula: number | null;
-  sueldonuevo: number | null;
-  vacio2: string | null;
-  mediatab2: number | null;
-  nvopra: number | null;
-  normppa: number | null;
-  ppa_aster: number | null;
-  tabulador: number | null;
-  posicion: string | null;
-  sintope: string | null;
-  contope: string | null;
-}
+import { Button } from 'primeng/button';
+import { AdmonSueldo } from '../../interfaces/admon-sueldos';
+import { AdmonSueldosService } from '../../services/admon-sueldos.service';
 
 @Component({
   selector: 'component-dropzone',
@@ -44,8 +14,11 @@ export class DropzoneComponent {
   excelData: any[] = [];
   previewData: any[] = [];
   columns: string[] = [];
+  flagPreview: boolean = false;
+  fileName : string = "";
+  disableBtn : boolean = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private SvAdmonSueldos : AdmonSueldosService) {}
 
   onFileSelect(event: any) {
     const file = event.files ? event.files[0] : event.target.files[0];
@@ -65,6 +38,11 @@ export class DropzoneComponent {
 
       // Columnas dinámicas
       this.columns = Object.keys(this.previewData[0] || {});
+
+      if (this.previewData.length){
+        this.flagPreview = true;
+        this.fileName = file.name;
+      }
     };
     reader.readAsArrayBuffer(file);
   }
@@ -167,7 +145,7 @@ export class DropzoneComponent {
 
     console.log('Payload a enviar:', payload);
 
-    this.http.post('http://localhost:5094/api/Admon_Sueldos', payload)
+    this.SvAdmonSueldos.addAdmonSueldos(payload)
       .subscribe({
         next: res => alert('Datos insertados correctamente'),
         error: err => {

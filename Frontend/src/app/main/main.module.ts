@@ -7,7 +7,7 @@ import { PanelIncrementosComponent } from './pages/panel-incrementos/panel-incre
 import { SharedModule } from '../shared/shared.module';
 import { DropzoneComponent } from './componentes/dropzone/dropzone.component';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
-
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,7 +19,8 @@ import { PrimeNgModule } from '../prime-ng/prime-ng.module';
     CommonModule,
     MainRoutingModule,
     SharedModule,
-    PrimeNgModule
+    PrimeNgModule,
+    FormsModule,
   ]
 })
 export class MainModule { }

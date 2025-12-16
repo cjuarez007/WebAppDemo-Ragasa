@@ -1,6 +1,6 @@
 :host {
   display: block;
-  max-width: 80%;   /* ocupa 90% del ancho de la pantalla */
+  max-width: 80%;  
   margin: auto;
 }
 
@@ -145,4 +145,41 @@ body, h1, h2, h3, h4, h5, h6, p, table, th, td, button {
 
 :host ::ng-deep .p-card {
   font-family: 'Montserrat', Arial, Tahoma, sans-serif;
+}
+
+.preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.preview-title {
+  margin: 0;
+  font-weight: 600;
+}
+
+/* Estilos SOLO para móvil */
+@media (max-width: 768px) {
+  :host ::ng-deep .p-button-label,
+  :host ::ng-deep .p-card .p-card-content .p-datatable-table{
+    font-size: 12px !important;
+  }
+  .about{
+    font-size: 14px;
+  }
+
+  :host {    
+    max-width: 95%;   
+  }  
+
+  .preview-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  .preview-btn {
+    width: 100%;
+  }
 }

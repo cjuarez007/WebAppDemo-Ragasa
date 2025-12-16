@@ -1,0 +1,25 @@
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th,
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+  padding: 0.25rem 0.4rem !important;
+  font-size: 12px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+
+:host ::ng-deep .p-card-body{
+  font-family: 'Montserrat', Arial, Tahoma, sans-serif;
+  line-height: 1.6;
+  color: black;
+}
+
+h1{
+  font-size: 18px;
+}
+
+@media (max-width: 768px) {
+  h1{
+    font-size: 1.5rem;
+  }
+}
+  

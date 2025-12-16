@@ -1,0 +1,32 @@
+export interface AdmonSueldo {
+    cia: number | null;
+    tipotrab: string | null;
+    nomina: number | null;
+    nombre: string | null;
+    puesto: string | null;
+    departamento: string | null;
+    segmento: string | null;
+    fechaingreso: string | null;
+    sueldodiario: number | null;
+    sueldomensual: number | null;
+    nivelnum: number | null;
+    nivel: string | null;
+    tipotab: string | null;
+    antiguedad: number | null;
+    vacio: string | null;
+    mediatab: number | null;
+    pra: number | null;
+    ppa: number | null;
+    porctab: number | null;
+    porcformula: number | null;
+    sueldonuevo: number | null;
+    vacio2: string | null;
+    mediatab2: number | null;
+    nvopra: number | null;
+    normppa: number | null;
+    ppa_aster: number | null;
+    tabulador: number | null;
+    posicion: string | null;
+    sintope: string | null;
+    contope: string | null;
+  }

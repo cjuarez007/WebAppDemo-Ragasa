@@ -1,4 +1,5 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, inject} from '@angular/core';
+import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
 
@@ -8,35 +9,46 @@ import { MenubarModule } from 'primeng/menubar';
   styleUrl: './menu.component.css'
 })
 export class MenuComponent implements OnInit {
-   items: MenuItem[] | undefined;
+    items: MenuItem[] | undefined;    
+    private router = inject(Router);
+
+    public logout():void{
+        localStorage.removeItem('user');
+        this.router.navigate(['/auth']);    
+    }
 
     ngOnInit() {
         this.items = [
-            {
-                label: 'Home',
-                icon: 'pi pi-home',
-                url: './main/Panel-Carga'
-            },
+            // {
+            //     label: 'Home',
+            //     icon: 'pi pi-home',
+            //     routerLink: ['/main/Panel-Carga']
+            // },
             {
                 label: 'Panel de Carga',
                 icon: 'pi pi-file-arrow-up',
-                url: './main/Panel-Carga'
+                routerLink: ['/main/Panel-Carga']
             },          
             {
                 label: 'Panel de Incrementos',
                 icon: 'pi pi-file-edit',
-                url: './main/Panel-Incrementos'
+                routerLink: ['/main/Panel-Incrementos']
             },          
-            {
-                label: 'Panel de Gestion',
-                icon: 'pi pi-chart-pie',
-                url: './main/Panel-Incrementos'
-            },          
-            {
-                label: 'Panel Resumen',
-                icon: 'pi pi-chart-bar',
-                url: './main/Panel-Incrementos'
-            }
+            // {
+            //     label: 'Panel de Gestion',
+            //     icon: 'pi pi-chart-pie',
+            //     routerLink: ['/main/Panel-Incrementos']
+            // },          
+            // {
+            //     label: 'Panel Resumen',
+            //     icon: 'pi pi-chart-bar',
+            //     routerLink: ['/main/Panel-Incrementos']
+            // },
+            {                
+                label: 'finalizar sesion',
+                icon: 'pi pi-sign-out',                            
+                command: () => this.logout()
+            },
         ]
     }
 }

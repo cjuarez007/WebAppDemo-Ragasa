@@ -48,3 +48,9 @@ html, body {
   align-items: center;     /* vertical */
   margin-bottom: 35px;
 }
+
+@media (max-width: 768px) {  
+  :host ::ng-deep .login-card {
+    margin: 15px !important;
+  }
+}

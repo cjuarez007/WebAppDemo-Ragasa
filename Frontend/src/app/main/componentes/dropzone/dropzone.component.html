@@ -14,7 +14,7 @@
       name="file"
       accept=".csv,.xlsx"
       maxFileSize="5000000"
-      chooseLabel="Seleccione un archivo para iniciar la carga."
+      [chooseLabel]="previewData.length ? 'Seleccione otro archivo para cargar.' : 'Seleccione un archivo para iniciar la carga.'"
       [auto]="true"
       [customUpload]="true"
       [showUploadButton]="false"
@@ -23,16 +23,27 @@
     </p-fileUpload>
 
     <!-- PREVIEW -->
-    <hr *ngIf="previewData.length">
-    <h3 *ngIf="previewData.length" style="text-align: center;">
-      Vista previa del archivo:
-    </h3>
+      <hr *ngIf="previewData.length">
+      <div class="preview-header" *ngIf="previewData.length">
+        <h3 class="preview-title">
+          Vista previa del archivo: {{fileName}}
+        </h3>
+      
+        <p-button
+          class="preview-btn"
+          [label]="flagPreview ? 'Ocultar vista previa' : 'Mostrar vista previa'"
+          icon="pi pi-eye"
+          severity="success"
+          (onClick)="flagPreview = !flagPreview">
+        </p-button>
+      </div>
+      
 
     <p-table
-      *ngIf="previewData.length"
+      *ngIf="flagPreview"
       [value]="previewData"
       responsiveLayout="scroll"
-      class="mt-3">
+      class="p-datatable-sm p-datatable-gridlines p-datatable-striped">
 
       <ng-template pTemplate="header">
         <tr>
@@ -49,7 +60,7 @@
     </p-table>
 
     <!-- INFO -->
-    <div class="mt-3 text-center" *ngIf="previewData.length">
+    <div class="mt-3 text-center" *ngIf="flagPreview">
       <p>Mostrando los primeros {{ previewData.length }} registros.</p>
     </div>
 
