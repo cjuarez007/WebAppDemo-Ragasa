@@ -39,6 +39,12 @@ builder.Services.AddDbContext<DBC_usuarios>(options =>
 builder.Services.AddDbContext<DBC_incrementos>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SQL2022")));
 
+builder.Services.AddDbContext<DBC_Empleados>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SQL2022")));
+
+builder.Services.AddDbContext<DBC_resultados>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SQL2022")));
+
 var app = builder.Build();
 
 app.UseCors("AllowAngular");

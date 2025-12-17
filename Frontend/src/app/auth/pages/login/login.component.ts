@@ -37,7 +37,7 @@ export class LoginComponent {
     console.log(`userID ${this.formLogin.get("userID")?.value} pass ${this.formLogin.get("password")?.value}`)    
     
     let user: User = {
-      UsuarioId: Number(this.formLogin.get("userID")?.value),
+      NominaID: Number(this.formLogin.get("userID")?.value),
       Password: this.formLogin.get("password")?.value
     };
 

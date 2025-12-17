@@ -12,13 +12,15 @@ import { FormsModule } from '@angular/forms';
 export class PanelIncrementosComponent implements OnInit{
   private svIncrementos = inject(IncrementosService);
   
-  public user : UserRes | null = null;
-  public name : string = "";
+  public user : UserRes | null = null;  
   public jefes: IncrementosRes[] = [];
   public empleados: IncrementosRes[] = [];
-  public miNn: number | null = null;
+  public nomina: number = 0;
+  public supJefe: boolean = false;
+
 
   guardarFila(empleado: IncrementosRes) {
+    empleado.SueldoNuevo = empleado.SueldoMensual*(1+empleado.porcentaje_minimo_jefe)
     this.svIncrementos.actualizarEmpleado(empleado).subscribe({
       next: res => {
         console.log('Empleado actualizado:', res);
@@ -27,35 +29,25 @@ export class PanelIncrementosComponent implements OnInit{
       error: err => console.error('Error al actualizar:', err)
     });
   }
-  
-  recalcular(emp: any) {
-    if (emp.SueldoActual && emp.PorcSugerido != null) {
-      emp.SueldoSugerido =
-        emp.SueldoActual + (emp.SueldoActual * emp.PorcSugerido / 100);
-    }
-  
-    if (emp.SueldoActual && emp.PorcOtorgadoJefe != null) {
-      emp.SueldoNuevo =
-        emp.SueldoActual + (emp.SueldoActual * emp.PorcOtorgadoJefe / 100);
-    }
-  }
-  
 
   ngOnInit(): void {
     if(localStorage.getItem('user')) {
       this.user = JSON.parse(localStorage.getItem('user')!)  
       if (this.user != null){
-        console.log(this.user)
-        this.name = `${this.user?.usuario?.Nombres} ${this.user.usuario.ApellidoPaterno} ${this.user.usuario.ApellidoMaterno}`
-        this.miNn = this.user.usuario.NominaId; 
+        console.log(this.user)        
+        this.nomina = this.user.usuario.NominaId; 
+        if(this.user.usuario.RolId == 1){
+          this.supJefe = true; 
+        }
       }      
     }    
-    this.svIncrementos.getJefesIncrementos().subscribe(
+    this.svIncrementos.getJefesIncrementos(this.nomina).subscribe(
       res => this.jefes = res
     )
 
-    this.svIncrementos.getEmpleadosIncrementos().subscribe(
+    this.svIncrementos.getEmpleadosIncrementos(this.nomina).subscribe(
       res => this.empleados = res
     )
+
   }
 }

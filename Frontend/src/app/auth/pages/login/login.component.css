@@ -22,6 +22,10 @@ html, body {
   padding: 0;
 }
 
+h1{
+  font-family: 'Montserrat', Arial, Tahoma, sans-serif;
+}
+
 .login-card {
   width: 100%;
   max-width: 380px;
@@ -35,6 +39,7 @@ html, body {
 .login-button {
   width: 100%;
   background-color: #006540;
+  font-family: 'Montserrat', Arial, Tahoma, sans-serif;
 }
 
 :host ::ng-deep .p-inputtext,

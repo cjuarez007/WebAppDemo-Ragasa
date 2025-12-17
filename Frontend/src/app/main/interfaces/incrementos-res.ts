@@ -1,23 +1,27 @@
 export interface IncrementosRes {
-    Nn:               number;
-    Nombre:           string;
-    IdPuesto:         string;
-    Puesto:           string;
-    Jefe:             Jefe;
-    FechaIngreso:     Date;
-    Sem12023:         number | null;
-    Sem22023:         number | null;
-    SueldoActual:     number;
-    PorcSugerido:     number;
-    SueldoSugerido:   number;
-    PorcOtorgado:     number;
-    PorcOtorgadoJefe: number;
-    SueldoNuevo:      number;
-    RolId:            number;
-}
-
-export enum Jefe {
-    GerenteÁrea1Y2 = "GERENTE ÁREA 1 Y 2",
-    JefeÁrea1 = "JEFE ÁREA 1",
-    JefeÁrea2 = "JEFE ÁREA 2",
+    Cia:           number;
+    TipoTrab:      string;
+    Nomina:        number;
+    Nombre:        string;
+    Puesto:        string;
+    Departamento:  string;
+    Segmento:      string;
+    FechaIngreso:  Date;
+    SueldoDiario:  number;
+    SueldoMensual: number;
+    SueldoNuevo: number;
+    NivelNum:      number;
+    Nivel:         string;
+    Tipotab:       string;
+    Antiguedad:    number;
+    Jefe:          number;
+    SupJefe:       number | null;
+    Sem12023:       number;
+    Sem22023:       number;
+    Desempenio: number;
+    PorcTabulador: number;
+    PosicionReal: number;
+    PorcIncrementoSugerido: number;
+    porcentaje_minimo: number;
+    porcentaje_minimo_jefe: number;
 }

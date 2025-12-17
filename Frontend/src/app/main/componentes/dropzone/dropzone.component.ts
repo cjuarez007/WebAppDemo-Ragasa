@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { Button } from 'primeng/button';
 import { AdmonSueldo } from '../../interfaces/admon-sueldos';
 import { AdmonSueldosService } from '../../services/admon-sueldos.service';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'component-dropzone',
@@ -139,7 +141,16 @@ export class DropzoneComponent {
   }
 
   sendToApi() {
-    if (!this.excelData.length) return alert('No hay datos para enviar');
+    if (!this.excelData.length) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Sin datos',
+        text: 'No hay datos para enviar',
+        confirmButtonText: 'Ok'
+      });
+      return;
+    }
+    
 
     const payload = this.excelData.map(row => this.mapRow(row));
 
@@ -147,11 +158,29 @@ export class DropzoneComponent {
 
     this.SvAdmonSueldos.addAdmonSueldos(payload)
       .subscribe({
-        next: res => alert('Datos insertados correctamente'),
+        next: () => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: 'Datos insertados correctamente'
+          });
+
+          this.excelData= [];
+          this.previewData = [];
+          this.columns = [];
+          this.flagPreview = false;
+          this.fileName  = "";
+          this.disableBtn = false;
+        },        
         error: err => {
           console.error('ERROR API:', err);
-          alert('Error al insertar datos. Revisa consola.');
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudieron insertar los datos. Revisa consola.',
+            confirmButtonText: 'Ok'
+          });
         }
-      });
+      });            
   }
 }

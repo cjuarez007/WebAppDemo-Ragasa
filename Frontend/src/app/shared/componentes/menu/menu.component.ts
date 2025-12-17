@@ -45,7 +45,7 @@ export class MenuComponent implements OnInit {
             //     routerLink: ['/main/Panel-Incrementos']
             // },
             {                
-                label: 'finalizar sesion',
+                label: 'Finalizar Sesión',
                 icon: 'pi pi-sign-out',                            
                 command: () => this.logout()
             },

@@ -34,14 +34,14 @@ namespace Backend.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginRequest model)
         {
-            if (model.UsuarioId == 0 || string.IsNullOrEmpty(model.Password))
+            if (model.NominaID == 0 || string.IsNullOrEmpty(model.Password))
             {
                 return BadRequest("Datos incompletos");
             }
 
             var usuario = _context.Usuarios
                 .FirstOrDefault(u =>
-                    u.UsuarioId == model.UsuarioId &&
+                    u.NominaId == model.NominaID &&
                     u.Password == model.Password);
 
             if (usuario == null)
@@ -84,7 +84,7 @@ namespace Backend.Controllers
 
     public class LoginRequest
     {
-        public int UsuarioId { get; set; } = 0;
+        public int NominaID { get; set; } = 0;
         public string Password { get; set; } = string.Empty;
     }
 
