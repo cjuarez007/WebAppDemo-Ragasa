@@ -1,6 +1,6 @@
-<p-card header="Control de Incrementos.">
+<p-card class="section-card" header="Control de Incrementos.">
     <p class="m-0">
-      Bienvenido al control de incrementos Ragasa.
+      Hola {{ nombre }}, estas en el panel de control de los incrementos Ragasa.
     </p>
   
     <!-- ================= DIRECTOS ================= -->
@@ -14,7 +14,7 @@
           editMode="row"
           class="p-datatable-sm p-datatable-gridlines p-datatable-striped">
           [scrollable]="true"
-          scrollHeight="70vh">
+          style="max-height: 500px;">
     
           <ng-template pTemplate="header">
             <tr>
@@ -141,7 +141,7 @@
           editMode="row"
           class="p-datatable-sm p-datatable-gridlines p-datatable-striped">
           [scrollable]="true"
-          scrollHeight="70vh">
+          style="max-height: 500px;">
 
           <ng-template pTemplate="header">
             <tr>

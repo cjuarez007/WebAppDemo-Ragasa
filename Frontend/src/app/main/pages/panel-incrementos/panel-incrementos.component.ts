@@ -17,6 +17,7 @@ export class PanelIncrementosComponent implements OnInit{
   public empleados: IncrementosRes[] = [];
   public nomina: number = 0;
   public supJefe: boolean = false;
+  public nombre:string = "";
 
 
   guardarFila(empleado: IncrementosRes) {
@@ -47,6 +48,10 @@ export class PanelIncrementosComponent implements OnInit{
 
     this.svIncrementos.getEmpleadosIncrementos(this.nomina).subscribe(
       res => this.empleados = res
+    )
+
+    this.svIncrementos.getUserIncrementos(this.nomina).subscribe(
+      res => this.nombre = res[0].Nombre
     )
 
   }

@@ -34,5 +34,8 @@ export class IncrementosService {
   public actualizarEmpleado(empleado: IncrementosRes) {
     return this.httpClient.put<IncrementosRes>(`http://localhost:5094/api/incrementos/updateIncremento/${empleado.Nomina}`, empleado, {headers:this.headers});
   }
+  public getUserIncrementos(nominaID:number):Observable<IncrementosRes[]>{
+    return this.httpClient.get<IncrementosRes[]>(`http://localhost:5094/api/incrementos/user/${nominaID}`)
+  }
   
 }

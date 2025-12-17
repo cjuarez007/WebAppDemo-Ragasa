@@ -28,6 +28,138 @@ namespace Backend.Controllers
             var Data = await _context.Incrementos.ToListAsync();
             return Ok(Data);
         }
+        // GET: api/incrementos/rol
+        [HttpGet("user/{nominaID}")]
+        public async Task<ActionResult<IEnumerable<Resultado>>> GetUser(int nominaID)
+        {            
+            string sql = @"  
+            SELECt 
+                a.*,
+                b.jefe,
+                b.SupJefe,
+                b.Sem12023,
+                b.Sem22023,
+
+                -- Desempeño (promedio)
+                (b.Sem12023 + b.Sem22023) / 2.0 AS Desempenio,
+
+                -- % Tabulador
+                t.porc_incremento AS PorcTabulador,
+
+                -- Posición real en el tabulador
+                CASE
+                    WHEN a.sueldomensual <= t.inicial   THEN 80
+                    WHEN a.sueldomensual <= t.cuartil_1 THEN 90
+                    WHEN a.sueldomensual <= t.media     THEN 100
+                    WHEN a.sueldomensual <= t.cuartil_3 THEN 110
+                    ELSE 120
+                END AS PosicionReal,
+
+                -- % Incremento sugerido
+                ROUND(
+                    t.porc_incremento +
+                    (
+                        (
+                            ((b.Sem12023 + b.Sem22023) / 2.0)
+                            -
+                            CASE
+                                WHEN a.sueldomensual <= t.inicial   THEN 80
+                                WHEN a.sueldomensual <= t.cuartil_1 THEN 90
+                                WHEN a.sueldomensual <= t.media     THEN 100
+                                WHEN a.sueldomensual <= t.cuartil_3 THEN 110
+                                ELSE 120
+                            END
+                        ) / 6.0
+                    ),
+                    2
+                ) AS PorcIncrementoSugerido,
+            (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min') as porcentaje_minimo,
+            (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min')  as porcentaje_minimo_jefe
+
+            FROM admon_sueldos a
+            INNER JOIN Empleados b
+            on a.nomina = b.nomina
+            INNER JOIN tabulador_niveles t
+                ON t.nivel = a.nivel
+            WHERE b.nomina = @nominaID;";
+            
+
+            using (var conn = _context.Database.GetDbConnection())
+            {
+                await conn.OpenAsync();
+
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = sql;
+                    var param = cmd.CreateParameter();
+                    param.ParameterName = "@nominaID";
+                    param.Value = nominaID;
+                    cmd.Parameters.Add(param);
+
+                    var resultado = new List<Resultado>();
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            resultado.Add(new Resultado
+                            {
+                                Cia = reader.GetInt32(reader.GetOrdinal("Cia")),
+                                TipoTrab = reader.GetString(reader.GetOrdinal("TipoTrab")),
+                                Nomina = reader.GetInt32(reader.GetOrdinal("Nomina")),
+                                Nombre = reader.GetString(reader.GetOrdinal("Nombre")),
+                                Puesto = reader.GetString(reader.GetOrdinal("Puesto")),
+                                Departamento = reader.GetString(reader.GetOrdinal("Departamento")),
+                                Segmento = reader.GetString(reader.GetOrdinal("Segmento")),
+                                FechaIngreso = reader.IsDBNull(reader.GetOrdinal("FechaIngreso"))
+                                              ? null
+                                              : reader.GetDateTime(reader.GetOrdinal("FechaIngreso")),
+                                SueldoDiario = reader.GetDecimal(reader.GetOrdinal("SueldoDiario")),
+                                SueldoMensual = reader.GetDecimal(reader.GetOrdinal("SueldoMensual")),
+                                SueldoNuevo = reader.GetDecimal(reader.GetOrdinal("SueldoNuevo")),
+                                NivelNum = reader.GetInt32(reader.GetOrdinal("NivelNum")),
+                                Nivel = reader.GetString(reader.GetOrdinal("Nivel")),
+                                Tipotab = reader.GetString(reader.GetOrdinal("Tipotab")),
+                                Antiguedad = reader.GetInt32(reader.GetOrdinal("Antiguedad")),
+                                Jefe = reader.IsDBNull(reader.GetOrdinal("Jefe"))
+                                       ? null
+                                       : reader.GetInt32(reader.GetOrdinal("Jefe")),
+                                SupJefe = reader.IsDBNull(reader.GetOrdinal("SupJefe"))
+                                          ? null
+                                          : reader.GetInt32(reader.GetOrdinal("SupJefe")),
+                                Sem12023 = reader.IsDBNull(reader.GetOrdinal("Sem12023"))
+                                          ? null
+                                          : reader.GetDecimal(reader.GetOrdinal("Sem12023")),
+                                Sem22023 = reader.IsDBNull(reader.GetOrdinal("Sem22023"))
+                                          ? null
+                                          : reader.GetDecimal(reader.GetOrdinal("Sem22023")),
+                                Desempenio = reader.IsDBNull(reader.GetOrdinal("Desempenio"))
+                                          ? null
+                                          : reader.GetDecimal(reader.GetOrdinal("Desempenio")),
+                                PorcTabulador = reader.IsDBNull(reader.GetOrdinal("PorcTabulador"))
+                                          ? null
+                                          : reader.GetDecimal(reader.GetOrdinal("PorcTabulador")),
+                                PosicionReal = reader.IsDBNull(reader.GetOrdinal("PosicionReal"))
+                                          ? null
+                                          : reader.GetInt32(reader.GetOrdinal("PosicionReal")),
+                                PorcIncrementoSugerido = reader.IsDBNull(reader.GetOrdinal("PorcIncrementoSugerido"))
+                                          ? null
+                                          : reader.GetDecimal(reader.GetOrdinal("PorcIncrementoSugerido"))
+                                ,
+                                porcentaje_minimo = reader.IsDBNull(reader.GetOrdinal("porcentaje_minimo"))
+                                          ? null
+                                          : reader.GetDecimal(reader.GetOrdinal("porcentaje_minimo")),
+                                porcentaje_minimo_jefe = reader.IsDBNull(reader.GetOrdinal("porcentaje_minimo_jefe"))
+                                          ? null
+                                          : reader.GetDecimal(reader.GetOrdinal("porcentaje_minimo_jefe"))
+                            });
+                        }
+                    }
+
+                    return Ok(resultado);
+                }
+            }
+        }
 
         // GET: api/incrementos/rol
         [HttpGet("jefes/{nominaID}")]

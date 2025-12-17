@@ -6,11 +6,19 @@
   white-space: nowrap;  
 }
 
+:host ::ng-deep .p-card-content{
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
 
 :host ::ng-deep .p-card-body{
   font-family: 'Montserrat', Arial, Tahoma, sans-serif;
   line-height: 1.6;
   color: black;
+}
+
+.section-card {
+  margin-bottom: 20px;
 }
 
 h1{
