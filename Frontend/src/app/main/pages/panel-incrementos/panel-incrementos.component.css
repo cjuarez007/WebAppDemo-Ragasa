@@ -25,6 +25,34 @@ h1{
   font-size: 18px;
 }
 
+:host ::ng-deep .incrementos-btn.p-button {
+  background-color: #006540;
+  font-family: "Montserrat", Arial, Tahoma, sans-serif !important;
+}
+
+:host ::ng-deep .incrementos-btn.p-button:hover {
+  background-color: #006540;
+  color: yellow;
+}
+
+:host ::ng-deep .incrementos-card .p-button {
+  background-color: #006540;
+  font-family: "Montserrat", Arial, Tahoma, sans-serif !important;  
+}
+
+:host ::ng-deep .incrementos-card .p-button:hover {
+  background-color: #006540;
+  color: yellow;
+}
+
+.incrementos-card {
+  display: flex;
+  justify-content: center; /* centra horizontalmente */
+  align-items: center;     /* centra verticalmente si hay altura definida */
+  margin-top: 20px;        /* opcional: espacio arriba */
+}
+
+
 @media (max-width: 768px) {
   h1{
     font-size: 1.5rem;
