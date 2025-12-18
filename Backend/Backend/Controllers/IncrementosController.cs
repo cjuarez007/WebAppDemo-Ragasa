@@ -568,6 +568,9 @@ namespace Backend.Controllers
             if (resultadoDb == null)
                 return NotFound();
 
+            Console.WriteLine("elefante "+ resultado.porcentaje_minimo);
+            Console.WriteLine("elefante " + resultado.porcentaje_minimo_jefe);
+
             // Solo actualiza lo necesario
             resultadoDb.PorcentajeMinimo = resultado.porcentaje_minimo;
             resultadoDb.PorcentajeMinimoJefe = resultado.porcentaje_minimo_jefe;

@@ -66,76 +66,59 @@ export class PanelIncrementosComponent implements OnInit{
     doc.setFontSize(18);
     doc.text('Control de Incrementos', 14, 20);
 
-    // --- Responsable ---
-    doc.setFontSize(12);
-    doc.text(`Responsable: ${this.nombre} - Nomina: ${this.user?.usuario.NominaId}`, 14, 30);
-
-    let yPos = 40;
+    let yPos = 30;
 
     // --- Directos (jefes) ---
     if (this.jefes.length > 0) {
-      doc.setFontSize(14);
-      doc.text('Directos', 14, yPos);
+      doc.setFontSize(14);      
       yPos += 6;
+      
+
+      const fechaHoy = new Date();
+      const fechaAnterior = fechaHoy.toLocaleDateString('es-MX', { day: '2-digit', month: 'long', year: 'numeric' });
+      const fechaNueva = new Date(fechaHoy.getTime() + 24*60*60*1000) // +1 día
+                          .toLocaleDateString('es-MX', { day: '2-digit', month: 'long', year: 'numeric' });
 
       autoTable(doc, {
         startY: yPos,
-        head: [['Nomina', 'Nombre', 'Puesto', 'Departamento', 'Sueldo Mensual', 'Sueldo Nuevo']],
-        body: this.jefes.map(j => [
-          j.Nomina,
-          j.Nombre,
-          j.Puesto,
-          j.Departamento,
-          j.SueldoMensual.toFixed(2),
-          j.SueldoMensual*(1+j.porcentaje_minimo_jefe)
-        ]),
+        head: [['Situación Anterior', 'Incremento', 'Situación Actual']],
+        body: [[
+          `Hasta el ${fechaAnterior}\nSueldo diario: $${(Number(this.jefes[0].SueldoMensual.toFixed(2)) / 30).toFixed(2)}\nSueldo mensual: $${this.jefes[0].SueldoMensual.toFixed(2)}`,
+          `${this.jefes[0].porcentaje_minimo_jefe.toFixed(2)}%`,
+          `A partir del ${fechaNueva}\nSueldo diario: $${((this.jefes[0].SueldoMensual*(1+this.jefes[0].porcentaje_minimo_jefe/100))/30).toFixed(2)}\nSueldo mensual: $${(this.jefes[0].SueldoMensual*(1+this.jefes[0].porcentaje_minimo_jefe/100)).toFixed(2)}`
+        ]],
         theme: 'striped',
         headStyles: { fillColor: [156, 39, 176] },
-        styles: { fontSize: 10 }
+        styles: { fontSize: 10, cellPadding: 2, overflow: 'linebreak' },
       });
 
-      yPos = (doc as any).lastAutoTable.finalY + 10;
-    }
+      yPos = (doc as any).lastAutoTable.finalY + 60;
 
-    // --- Indirectos (empleados) ---
-    if (this.empleados.length > 0) {
-      doc.setFontSize(14);
-      doc.text('Indirectos', 14, yPos);
-      yPos += 6;
-
-      autoTable(doc, {
-        startY: yPos,
-        head: [['Nomina', 'Nombre', 'Puesto', 'Departamento', 'Sueldo Mensual', 'Sueldo Nuevo']],
-        body: this.empleados.map(e => [
-          e.Nomina,
-          e.Nombre,
-          e.Puesto,
-          e.Departamento,
-          e.SueldoMensual.toFixed(2),
-          e.SueldoMensual*(1+e.porcentaje_minimo_jefe)
-        ]),
-        theme: 'striped',
-        headStyles: { fillColor: [63, 81, 181] },
-        styles: { fontSize: 10 }
-      });
-
-      yPos = (doc as any).lastAutoTable.finalY + 10;
-    }
-
-    
-    // --- Agregar logo al final ---
-    const img = new Image();
-    img.src = 'assets/logo_grande.png'; // tu ruta
-    img.onload = () => {
-      const logoWidth = 45;
-      const logoHeight = 28;
       const pageWidth = doc.internal.pageSize.getWidth();
-      const x = (pageWidth - logoWidth) / 2 + 70; 
+      const margin = 20; // margen izquierdo y derecho
+      const lineWidth = 50; // ancho de la línea de firma
+      const gap = (pageWidth - margin*2 - lineWidth*3) / 2; // espacio entre las líneas
 
-      doc.addImage(img, 'PNG', x, yPos, logoWidth, logoHeight);
+      // --- Acepta ---
+      doc.setLineWidth(0.5);
+      doc.line(margin, yPos, margin + lineWidth, yPos); // línea
+      doc.text('Acepta', margin + lineWidth/2, yPos + 6, { align: 'center' });
 
-      //   --- Guardar PDF ---
-      doc.save('control_incrementos.pdf');
-    };
+      // --- Autoriza ---
+      doc.line(margin + lineWidth + gap, yPos, margin + lineWidth*2 + gap, yPos);
+      doc.text('Autoriza', margin + lineWidth + gap + lineWidth/2, yPos + 6, { align: 'center' });
+
+      // --- Fecha Efectiva ---      
+      const fechaFormateada = fechaHoy.toLocaleDateString('es-MX', { month: 'long', year: 'numeric' });
+      // Línea de la firma
+      doc.line(margin + (lineWidth + gap)*2, yPos, margin + (lineWidth + gap)*2 + lineWidth, yPos);  
+      // Fecha arriba de la línea (por ejemplo 4 unidades arriba)
+      doc.text(fechaFormateada, margin + (lineWidth + gap)*2 + lineWidth/2, yPos - 4, { align: 'center' });
+      // Texto "Fecha Efectiva" debajo de la línea (por ejemplo 6 unidades abajo)
+      doc.text('Fecha Efectiva', margin + (lineWidth + gap)*2 + lineWidth/2, yPos + 6, { align: 'center' });      
+      
+    }
+    
+    doc.save('control_incrementos.pdf');
   }
 }

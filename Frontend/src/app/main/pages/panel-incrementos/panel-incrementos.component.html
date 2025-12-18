@@ -1,5 +1,6 @@
-<p-card class="section-card" header="Control de Incrementos.">
+<p-card class="section-card" header="Proceso de Administración de Sueldos 2025.">
     <p class="m-0">
+      <strong>Gerencia Área 1 y 2</strong> <br>
       Hola {{ nombre }}, estas en el panel de control de los incrementos Ragasa.
     </p>
   
@@ -46,12 +47,12 @@
               <td>{{ jefe.Sem12023 | number:'1.2-2'}}</td>
               <td>{{ jefe.Sem22023 | number:'1.2-2'}}</td>
     
-              <td>{{ jefe.SueldoMensual }}</td>
+              <td>${{ jefe.SueldoMensual | number:'1.2-2'}}</td>
 
               <td>{{ jefe.PorcIncrementoSugerido }} %</td>          
     
               <td>
-                {{ jefe.SueldoMensual * (1 + jefe.PorcIncrementoSugerido / 100) | number:'1.2-2' }}
+                ${{ jefe.SueldoMensual * (1 + jefe.PorcIncrementoSugerido / 100) | number:'1.2-2' }}
               </td>
               
               <td>
@@ -89,7 +90,7 @@
                 </p-cellEditor>
               </td>
     
-              <td>{{ (jefe.SueldoMensual*(1+jefe.porcentaje_minimo_jefe)) | number:'1.2-2' }}</td>            
+              <td>${{ (jefe.SueldoMensual*(1+(jefe.porcentaje_minimo_jefe/100))) | number:'1.2-2' }}</td>            
     
               <td class="text-center">
 
@@ -177,12 +178,12 @@
               <td>{{ empleado.Sem12023 | number:'1.2-2' }}</td>
               <td>{{ empleado.Sem22023 | number:'1.2-2' }}</td>
 
-              <td>{{ empleado.SueldoMensual }}</td>
+              <td>${{ empleado.SueldoMensual | number:'1.2-2' }}</td>
 
               <td>{{ empleado.PorcIncrementoSugerido }} %</td>          
 
               <td>
-                {{ empleado.SueldoMensual * (1 + empleado.PorcIncrementoSugerido / 100) | number:'1.2-2' }}
+                ${{ empleado.SueldoMensual * (1 + empleado.PorcIncrementoSugerido / 100) | number:'1.2-2' }}
               </td>
               
                 
@@ -221,7 +222,7 @@
                 </p-cellEditor>
               </td>
                 
-              <td>{{ (empleado.SueldoMensual*(1+empleado.porcentaje_minimo_jefe)) | number:'1.2-2' }}</td>                      
+              <td>${{ (empleado.SueldoMensual*(1+(empleado.porcentaje_minimo_jefe/100))) | number:'1.2-2' }}</td>                      
 
               <!-- ACCIONES -->
               <td class="text-center">
@@ -262,6 +263,7 @@
       </div>
     </div>
     <hr>
+    
     <div class="incrementos-card">
       <p-button 
         label="Generar PDF" 
