@@ -177,7 +177,7 @@ export class DropzoneComponent {
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'No se pudieron insertar los datos. Revisa consola.',
+            text: 'No se pudieron insertar los datos. Por favor revise el archivo.',
             confirmButtonText: 'Ok'
           });
         }

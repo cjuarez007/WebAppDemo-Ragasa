@@ -1,9 +1,58 @@
+<!-- <h1>
+  Total Sueldos Mensuales: 
+  ${{ totalSueldos | number:'1.2-2' }}
+</h1>
+
+<h1>
+  Total Sueldos Mensuales Sugeridos: 
+  ${{ totalSueldosSugeridos | number:'1.2-2' }}
+</h1>
+
+<h1>
+  Total Sueldos Mensuales Otorgados: 
+  ${{ totalSueldosOtorgado | number:'1.2-2' }}
+</h1>
+
+<h1>
+  Total Sueldos Sugerido: 
+  % {{ ((totalSueldosSugeridos / totalSueldos) - 1)*100 | number:'1.1-1'  }}
+</h1>
+
+<h1>
+  Total Sueldos Otorgado: 
+  % {{ ((totalSueldosOtorgado / totalSueldos) - 1)*100 | number:'1.1-1'  }}
+</h1>  -->
+
+
+
 <p-card class="section-card" header="Proceso de Administración de Sueldos 2025.">
     <p class="m-0">
       <strong>Gerencia Área 1 y 2</strong> <br>
       Hola {{ nombre }}, estas en el panel de control de los incrementos Ragasa.
-    </p>
+    </p>    
+
+    <hr>
+
+    <div class="resumen-grid">
+
+      <div class="resumen-item">
+        <span class="label">Aumento total sugerido</span>
+        <span class="valor sugerido">
+          {{ (totalSueldosSugeridos / totalSueldos - 1) | percent:'1.1-1' }}
+        </span>
+      </div>
   
+      <div class="resumen-item">
+        <span class="label">Aumento total asignado</span>
+        <span class="valor asignado">
+          {{ (totalSueldosOtorgado / totalSueldos - 1) | percent:'1.1-1' }}
+        </span>
+      </div>
+  
+    </div>  
+
+    <hr>
+
     <!-- ================= DIRECTOS ================= -->
     <div class="section">
       <h1>Directos</h1>
@@ -37,7 +86,7 @@
           </ng-template>
     
           <ng-template pTemplate="body" let-jefe let-editing="editing">
-            <tr [pEditableRow]="jefe">
+            <tr [pEditableRow]="jefe" [ngClass]="{ 'fila-verde': jefe._highlight }">
     
               <td>{{ jefe.Nomina }}</td>
               <td>{{ jefe.Nombre }}</td>
@@ -166,9 +215,8 @@
 
           <ng-template pTemplate="body" let-empleado let-editing="editing">
             <tr
-              [pEditableRow]="empleado"            
-              >
-
+              [pEditableRow]="empleado"                          
+              [ngClass]="{ 'fila-verde': empleado._highlight }">              
               <td>{{ empleado.Nomina }}</td>
               <td>{{ empleado.Nombre }}</td>
               <td>{{ empleado.Cia }}</td>

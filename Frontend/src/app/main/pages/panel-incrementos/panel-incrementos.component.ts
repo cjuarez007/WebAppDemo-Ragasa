@@ -47,16 +47,23 @@ export class PanelIncrementosComponent implements OnInit{
       }      
     }    
     this.svIncrementos.getJefesIncrementos(this.nomina).subscribe(
-      res => this.jefes = res
+      (res) => {
+        this.jefes = res;
+        this.marcarFilasAleatorias(this.jefes);
+      }
     )
 
     this.svIncrementos.getEmpleadosIncrementos(this.nomina).subscribe(
-      res => this.empleados = res
+      (res) => {
+        this.empleados = res;
+        this.marcarFilasAleatorias(this.empleados);
+      }      
     )
 
     this.svIncrementos.getUserIncrementos(this.nomina).subscribe(
       res => this.nombre = res[0].Nombre
     )
+      
   }
 
   public generarPDF() {
@@ -102,11 +109,11 @@ export class PanelIncrementosComponent implements OnInit{
       // --- Acepta ---
       doc.setLineWidth(0.5);
       doc.line(margin, yPos, margin + lineWidth, yPos); // línea
-      doc.text('Acepta', margin + lineWidth/2, yPos + 6, { align: 'center' });
+      doc.text(`Acepta\n${this.nombre} Salazar Meléndez`, margin + lineWidth/2, yPos + 6, { align: 'center' });
 
       // --- Autoriza ---
       doc.line(margin + lineWidth + gap, yPos, margin + lineWidth*2 + gap, yPos);
-      doc.text('Autoriza', margin + lineWidth + gap + lineWidth/2, yPos + 6, { align: 'center' });
+      doc.text(`Autoriza\nMarcelo Rodríguez Peña`, margin + lineWidth + gap + lineWidth/2, yPos + 6, { align: 'center' });
 
       // --- Fecha Efectiva ---      
       const fechaFormateada = fechaHoy.toLocaleDateString('es-MX', { month: 'long', year: 'numeric' });
@@ -121,4 +128,58 @@ export class PanelIncrementosComponent implements OnInit{
     
     doc.save('control_incrementos.pdf');
   }
+  
+  get totalSueldos(): number {
+    const totalJefes = this.jefes?.reduce(
+      (sum, j) => sum + (j.SueldoMensual || 0),
+      0
+    ) || 0;
+  
+    const totalEmpleados = this.empleados?.reduce(
+      (sum, e) => sum + (e.SueldoMensual || 0),
+      0
+    ) || 0;
+  
+    return totalJefes + totalEmpleados;
+  }
+  
+  get totalSueldosSugeridos(): number {
+
+    // jefe.SueldoMensual * (1 + jefe.PorcIncrementoSugerido / 100)
+    const totalJefes = this.jefes?.reduce(
+      (sum, j) => sum + ((j.SueldoMensual * (1 + j.PorcIncrementoSugerido / 100)) || 0),
+      0
+    ) || 0;
+  
+    const totalEmpleados = this.empleados?.reduce(
+      (sum, e) => sum + ((e.SueldoMensual * (1 + e.PorcIncrementoSugerido / 100)) || 0),
+      0
+    ) || 0;
+  
+    return totalJefes + totalEmpleados;
+  }
+
+  get totalSueldosOtorgado(): number {
+
+    // jefe.SueldoMensual * (1 + jefe.PorcIncrementoSugerido / 100)
+    const totalJefes = this.jefes?.reduce(
+      (sum, j) => sum + ((j.SueldoMensual*(1+(j.porcentaje_minimo_jefe/100)))|| 0),
+      0
+    ) || 0;
+  
+    const totalEmpleados = this.empleados?.reduce(
+      (sum, e) => sum + ((e.SueldoMensual*(1+(e.porcentaje_minimo_jefe/100))) || 0),
+      0
+    ) || 0;
+  
+    return totalJefes + totalEmpleados;
+  }
+
+  public marcarFilasAleatorias(lista: any[]) {
+    lista.forEach(item => {
+      // 30% de probabilidad de pintarse
+      item._highlight = Math.random() < 0.3;
+    });
+  }
+  
 }
