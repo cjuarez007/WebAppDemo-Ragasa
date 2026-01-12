@@ -11,6 +11,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
 import { TableModule } from 'primeng/table';
 import { MenubarModule } from 'primeng/menubar';
+import { DropdownModule  } from 'primeng/dropdown';
 
 @NgModule({
   declarations: [],
@@ -27,6 +28,7 @@ import { MenubarModule } from 'primeng/menubar';
     ToastModule,    
     TableModule,
     MenubarModule,
+    DropdownModule,
   ]
 })
 export class PrimeNgModule { }

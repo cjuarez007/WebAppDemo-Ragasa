@@ -45,6 +45,9 @@ builder.Services.AddDbContext<DBC_Empleados>(options =>
 builder.Services.AddDbContext<DBC_resultados>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SQL2022")));
 
+builder.Services.AddDbContext<DBC_porcentajes_estandar>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SQL2022")));
+
 var app = builder.Build();
 
 app.UseCors("AllowAngular");

@@ -23,7 +23,8 @@
   % {{ ((totalSueldosOtorgado / totalSueldos) - 1)*100 | number:'1.1-1'  }}
 </h1>  -->
 
-
+<!-- <h1>{{jefes.length}}</h1>
+<h1 class="page-title">{{nomina}}</h1> -->
 
 <p-card class="section-card" header="Proceso de Administración de Sueldos 2025.">
     <p class="m-0">
@@ -40,6 +41,24 @@
         <span class="valor sugerido">
           {{ (totalSueldosSugeridos / totalSueldos - 1) | percent:'1.1-1' }}
         </span>
+        <span class="label">Monto total: ${{ (totalSueldosSugeridos - totalSueldos) | number:'1.2-2' }}</span>
+        <!-- <span class="label">Monto total: ${{totalSueldosSugeridos}} - {{totalSueldos}}</span> -->
+      </div>
+      
+      <div class="resumen-item">
+        <span class="label">Aumento Minimo</span>
+        <span class="valor porcentajes">
+          {{ porcentajesEstandar[0].Valor / 100 | percent:'1.1-1' }}
+        </span>
+        <!-- <span class="label">Monto total: ${{ (porcentajesEstandar[0].Valor - totalSueldos) | number:'1.2-2' }}</span> -->
+      </div>
+
+      <div class="resumen-item">
+        <span class="label">Aumento Maximo</span>
+        <span class="valor porcentajes">
+          {{ porcentajesEstandar[1].Valor / 100 | percent:'1.1-1' }}
+        </span>
+        <!-- <span class="label">Monto total: ${{ (porcentajesEstandar[1].Valor - totalSueldos) | number:'1.2-2' }}</span> -->
       </div>
   
       <div class="resumen-item">
@@ -47,6 +66,8 @@
         <span class="valor asignado">
           {{ (totalSueldosOtorgado / totalSueldos - 1) | percent:'1.1-1' }}
         </span>
+        <span class="label">Monto total: ${{ (totalSueldosOtorgado - totalSueldos) | number:'1.2-2' }}</span>
+        <!-- <span class="label">Monto total: ${{totalSueldosOtorgado}} - {{totalSueldos}}</span> -->
       </div>
   
     </div>  
@@ -136,8 +157,8 @@
                   <ng-template pTemplate="output">
                     {{ jefe.porcentaje_minimo_jefe }} %
                   </ng-template>
-                </p-cellEditor>
-              </td>
+                </p-cellEditor>            
+              </td>              
     
               <td>${{ (jefe.SueldoMensual*(1+(jefe.porcentaje_minimo_jefe/100))) | number:'1.2-2' }}</td>            
     
@@ -171,7 +192,28 @@
                     class="p-button-text p-button-sm p-button-danger">
                   </button>
                 
-                </td>                
+                </td>      
+                
+                <!-- justificacion jefe -->
+                <td>                                                  
+                  <div *ngIf="(supJefe == false && (editing && jefe.Nomina !== nomina) && requiereJustificacion(jefe.porcentaje_minimo))" class="mt-2">
+                    <textarea
+                      pInputTextarea
+                      rows="2"                    
+                      placeholder="Explique el motivo del aumento fuera de rango">
+                    </textarea>
+                  </div>
+                </td>      
+                <!-- justificacion super jefe  -->
+                <td>                                                  
+                  <div *ngIf="(supJefe == true && (editing && jefe.Nomina !== nomina) && requiereJustificacion(jefe.porcentaje_minimo_jefe))" class="mt-2">
+                    <textarea
+                      pInputTextarea
+                      rows="2"                    
+                      placeholder="Explique el motivo del aumento fuera de rango">
+                    </textarea>
+                  </div>
+                </td>      
             </tr>
           </ng-template>
         </p-table>
@@ -183,10 +225,35 @@
     <!-- ================= INDIRECTOS ================= -->
     <div class="section">
       <h1>Indirectos</h1>
+      <hr *ngIf="supJefe">
+      <div *ngIf="supJefe" class="filtro-jefe">
+        <h1 class="filtro-titulo">Filtrar por jefe</h1>
+
+        <div class="filtro-controles">
+          <p-dropdown
+            [options]="jefes"
+            optionLabel="Nomina"
+            optionValue="Nomina"
+            placeholder="Seleccione un jefe"
+            [(ngModel)]="jefeSeleccionado"
+            (onChange)="filtrarEmpleadosPorJefe()"
+            [showClear]="true"
+            styleClass="w-full">
+          </p-dropdown>
+
+          <button
+            pButton
+            label="Mostrar todo"
+            class="incrementos-btn">
+          </button>
+        </div>
+      </div>
+
+
       <hr>
       <div class="card">
         <p-table
-          [value]="empleados"
+          [value]="empleadosFiltrados"
           dataKey="Nomina"
           editMode="row"
           class="p-datatable-sm p-datatable-gridlines p-datatable-striped">
@@ -301,9 +368,29 @@
                     icon="pi pi-times"
                     pCancelEditableRow
                     class="p-button-text p-button-sm p-button-danger">
-                  </button>
+                  </button>                
+                </td>      
                 
-                </td>              
+                <!-- justificacion jefe -->
+                <td>                                                  
+                  <div *ngIf="(supJefe == false && (editing && empleado.Nomina !== nomina) && requiereJustificacion(empleado.porcentaje_minimo))" class="mt-2">
+                    <textarea
+                      pInputTextarea
+                      rows="2"                    
+                      placeholder="Explique el motivo del aumento fuera de rango">
+                    </textarea>
+                  </div>
+                </td>      
+                <!-- justificacion super jefe  -->
+                <td>                                                  
+                  <div *ngIf="(supJefe == true && (editing && empleado.Nomina !== nomina) && requiereJustificacion(empleado.porcentaje_minimo_jefe))" class="mt-2">
+                    <textarea
+                      pInputTextarea
+                      rows="2"                    
+                      placeholder="Explique el motivo del aumento fuera de rango">
+                    </textarea>
+                  </div>
+                </td>          
 
             </tr>
           </ng-template>

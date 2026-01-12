@@ -7,6 +7,8 @@ import { FormsModule } from '@angular/forms';
 
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { PorcentajesEstandarService } from '../../services/porcentajes-estandar.service';
+import { PorcentajesEstandar } from '../../interfaces/porcentajes-estandar';
 
 @Component({
   selector: 'app-panel-incrementos',
@@ -15,6 +17,7 @@ import autoTable from 'jspdf-autotable';
 })
 export class PanelIncrementosComponent implements OnInit{
   private svIncrementos = inject(IncrementosService);
+  private svPorcentajesEstandar = inject(PorcentajesEstandarService)
   
   public user : UserRes | null = null;  
   public jefes: IncrementosRes[] = [];
@@ -23,6 +26,12 @@ export class PanelIncrementosComponent implements OnInit{
   public supJefe: boolean = false;
   public nombre:string = "";
 
+  public porcentajesEstandar: PorcentajesEstandar[] = [];
+
+  //Variables para filtro
+  jefeSeleccionado: number | null = null;
+  empleadosOriginal: IncrementosRes[] = [];
+  empleadosFiltrados: IncrementosRes[] = [];
 
   guardarFila(empleado: IncrementosRes) {
     empleado.SueldoNuevo = empleado.SueldoMensual*(1+empleado.porcentaje_minimo_jefe)
@@ -45,25 +54,52 @@ export class PanelIncrementosComponent implements OnInit{
           this.supJefe = true; 
         }
       }      
-    }    
+    } 
+
     this.svIncrementos.getJefesIncrementos(this.nomina).subscribe(
       (res) => {
+        console.log('Jefes recibidos:', res);
         this.jefes = res;
+        console.log('Jefes asignados:', this.jefes);
         this.marcarFilasAleatorias(this.jefes);
+      },
+      (error) => {
+        console.error('Error al cargar jefes:', error);
       }
-    )
+    );
 
     this.svIncrementos.getEmpleadosIncrementos(this.nomina).subscribe(
       (res) => {
-        this.empleados = res;
-        this.marcarFilasAleatorias(this.empleados);
+        this.empleadosOriginal = res;
+        this.empleadosFiltrados = res;
+        this.marcarFilasAleatorias(this.empleadosFiltrados);
       }      
-    )
+    );
 
     this.svIncrementos.getUserIncrementos(this.nomina).subscribe(
       res => this.nombre = res[0].Nombre
-    )
+    );
       
+    this.svPorcentajesEstandar.getPorcentajesEstandar().subscribe(
+      res => this.porcentajesEstandar = res 
+    );
+  }
+
+  requiereJustificacion(porcentaje: number): boolean {
+    if (porcentaje == null) return false;
+
+    return porcentaje < this.porcentajesEstandar[0].Valor || porcentaje > this.porcentajesEstandar[1].Valor;
+  }
+
+  filtrarEmpleadosPorJefe() {
+    if (!this.jefeSeleccionado) {
+      this.empleadosFiltrados = this.empleadosOriginal;
+      return;
+    }
+
+    this.empleadosFiltrados = this.empleadosOriginal.filter(
+      e => e.Jefe === this.jefeSeleccionado
+    );
   }
 
   public generarPDF() {
@@ -135,7 +171,7 @@ export class PanelIncrementosComponent implements OnInit{
       0
     ) || 0;
   
-    const totalEmpleados = this.empleados?.reduce(
+    const totalEmpleados = this.empleadosOriginal?.reduce(
       (sum, e) => sum + (e.SueldoMensual || 0),
       0
     ) || 0;
@@ -151,7 +187,7 @@ export class PanelIncrementosComponent implements OnInit{
       0
     ) || 0;
   
-    const totalEmpleados = this.empleados?.reduce(
+    const totalEmpleados = this.empleadosOriginal?.reduce(
       (sum, e) => sum + ((e.SueldoMensual * (1 + e.PorcIncrementoSugerido / 100)) || 0),
       0
     ) || 0;
@@ -167,7 +203,7 @@ export class PanelIncrementosComponent implements OnInit{
       0
     ) || 0;
   
-    const totalEmpleados = this.empleados?.reduce(
+    const totalEmpleados = this.empleadosOriginal?.reduce(
       (sum, e) => sum + ((e.SueldoMensual*(1+(e.porcentaje_minimo_jefe/100))) || 0),
       0
     ) || 0;

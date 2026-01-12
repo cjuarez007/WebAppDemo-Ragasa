@@ -87,8 +87,39 @@ h1{
   color: #16a34a; /* verde */
 }
 
+.valor.porcentajes{
+  color: #beb910;
+}
+
 :host ::ng-deep .fila-verde {
   background-color: #7fe1a1 !important; /* verde suave */
+}
+
+.section,
+.section-card,
+.card,
+.p-card {
+  overflow: visible !important;
+}
+
+/* Estilos Drop de Jefes */
+.filtro-jefe {
+  margin-bottom: 1.5rem;
+}
+
+.filtro-titulo {
+  font-size: 14px;
+  margin-bottom: 0.5rem;
+}
+
+.filtro-controles {
+  display: flex;
+  align-items: center;
+  gap: 1rem;           
+}
+
+.filtro-controles p-dropdown {
+  min-width: 260px;     
 }
 
 

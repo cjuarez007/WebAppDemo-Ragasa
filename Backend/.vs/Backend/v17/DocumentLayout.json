@@ -1,7 +1,28 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\cjuarez\\Desktop\\Web Aumentos-Ragasa\\Backend\\",
-  "Documents": [],
+  "WorkspaceRootPath": "C:\\Users\\Alexsis007\\Desktop\\WebAppDemo-Ragasa\\Backend\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{43D26F8B-9861-43C2-A8F5-748F1C5D00B2}|Backend\\Backend.csproj|c:\\users\\alexsis007\\desktop\\webappdemo-ragasa\\backend\\backend\\data\\dbc_resultados.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43D26F8B-9861-43C2-A8F5-748F1C5D00B2}|Backend\\Backend.csproj|solutionrelative:backend\\data\\dbc_resultados.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43D26F8B-9861-43C2-A8F5-748F1C5D00B2}|Backend\\Backend.csproj|c:\\users\\alexsis007\\desktop\\webappdemo-ragasa\\backend\\backend\\controllers\\porcentajes_estandarcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43D26F8B-9861-43C2-A8F5-748F1C5D00B2}|Backend\\Backend.csproj|solutionrelative:backend\\controllers\\porcentajes_estandarcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43D26F8B-9861-43C2-A8F5-748F1C5D00B2}|Backend\\Backend.csproj|c:\\users\\alexsis007\\desktop\\webappdemo-ragasa\\backend\\backend\\controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43D26F8B-9861-43C2-A8F5-748F1C5D00B2}|Backend\\Backend.csproj|solutionrelative:backend\\controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43D26F8B-9861-43C2-A8F5-748F1C5D00B2}|Backend\\Backend.csproj|c:\\users\\alexsis007\\desktop\\webappdemo-ragasa\\backend\\backend\\data\\dbc_porcentajes_estandar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43D26F8B-9861-43C2-A8F5-748F1C5D00B2}|Backend\\Backend.csproj|solutionrelative:backend\\data\\dbc_porcentajes_estandar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43D26F8B-9861-43C2-A8F5-748F1C5D00B2}|Backend\\Backend.csproj|c:\\users\\alexsis007\\desktop\\webappdemo-ragasa\\backend\\backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43D26F8B-9861-43C2-A8F5-748F1C5D00B2}|Backend\\Backend.csproj|solutionrelative:backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,8 +30,34 @@
       "DocumentGroups": [
         {
           "DockedWidth": 142,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DBC_resultados.cs",
+              "DocumentMoniker": "C:\\Users\\Alexsis007\\Desktop\\WebAppDemo-Ragasa\\Backend\\Backend\\Data\\DBC_resultados.cs",
+              "RelativeDocumentMoniker": "Backend\\Data\\DBC_resultados.cs",
+              "ToolTip": "C:\\Users\\Alexsis007\\Desktop\\WebAppDemo-Ragasa\\Backend\\Backend\\Data\\DBC_resultados.cs",
+              "RelativeToolTip": "Backend\\Data\\DBC_resultados.cs",
+              "ViewState": "AgIAAD4AAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-12T18:48:05.526Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UsuariosController.cs",
+              "DocumentMoniker": "C:\\Users\\Alexsis007\\Desktop\\WebAppDemo-Ragasa\\Backend\\Backend\\Controllers\\UsuariosController.cs",
+              "RelativeDocumentMoniker": "Backend\\Controllers\\UsuariosController.cs",
+              "ToolTip": "C:\\Users\\Alexsis007\\Desktop\\WebAppDemo-Ragasa\\Backend\\Backend\\Controllers\\UsuariosController.cs",
+              "RelativeToolTip": "Backend\\Controllers\\UsuariosController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-12T16:13:04.868Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
@@ -30,6 +77,45 @@
             {
               "$type": "Bookmark",
               "Name": "ST:133:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Alexsis007\\Desktop\\WebAppDemo-Ragasa\\Backend\\Backend\\Program.cs",
+              "RelativeDocumentMoniker": "Backend\\Program.cs",
+              "ToolTip": "C:\\Users\\Alexsis007\\Desktop\\WebAppDemo-Ragasa\\Backend\\Backend\\Program.cs",
+              "RelativeToolTip": "Backend\\Program.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAACwAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-12T16:01:16.001Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DBC_porcentajes_estandar.cs",
+              "DocumentMoniker": "C:\\Users\\Alexsis007\\Desktop\\WebAppDemo-Ragasa\\Backend\\Backend\\Data\\DBC_porcentajes_estandar.cs",
+              "RelativeDocumentMoniker": "Backend\\Data\\DBC_porcentajes_estandar.cs",
+              "ToolTip": "C:\\Users\\Alexsis007\\Desktop\\WebAppDemo-Ragasa\\Backend\\Backend\\Data\\DBC_porcentajes_estandar.cs",
+              "RelativeToolTip": "Backend\\Data\\DBC_porcentajes_estandar.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAgwBgAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-12T16:01:05.254Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Porcentajes_EstandarController.cs",
+              "DocumentMoniker": "C:\\Users\\Alexsis007\\Desktop\\WebAppDemo-Ragasa\\Backend\\Backend\\Controllers\\Porcentajes_EstandarController.cs",
+              "RelativeDocumentMoniker": "Backend\\Controllers\\Porcentajes_EstandarController.cs",
+              "ToolTip": "C:\\Users\\Alexsis007\\Desktop\\WebAppDemo-Ragasa\\Backend\\Backend\\Controllers\\Porcentajes_EstandarController.cs",
+              "RelativeToolTip": "Backend\\Controllers\\Porcentajes_EstandarController.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAQwBsAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-12T16:00:35.822Z",
+              "EditorCaption": ""
             }
           ]
         }

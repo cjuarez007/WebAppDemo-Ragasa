@@ -7,11 +7,11 @@ namespace Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsuariosConreoller : ControllerBase
+    public class UsuariosController : ControllerBase
     {
         private readonly DBC_usuarios _context;
 
-        public UsuariosConreoller(DBC_usuarios context)
+        public UsuariosController(DBC_usuarios context)
         {
             _context = context;
         }
