@@ -73,8 +73,9 @@ namespace Backend.Controllers
                     ),
                     2
                 ) AS PorcIncrementoSugerido,
-            (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min') as porcentaje_minimo,
-            (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min')  as porcentaje_minimo_jefe
+            (COALESCE( (SELECT TOP 1 porcentaje_minimo FROM resultados ACT WHERE  ACT.nomina = a.nomina ), (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min')   )) as porcentaje_minimo,
+            (COALESCE( (SELECT TOP 1 porcentaje_minimo_jefe FROM resultados ACT WHERE  ACT.nomina = a.nomina ), (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min') )) as porcentaje_minimo_jefe
+
 
             FROM admon_sueldos a
             INNER JOIN Empleados b
@@ -216,8 +217,9 @@ namespace Backend.Controllers
                         ),
                         2
                     ) AS PorcIncrementoSugerido,
-                (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min') as porcentaje_minimo,
-                (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min')  as porcentaje_minimo_jefe
+            (COALESCE( (SELECT TOP 1 porcentaje_minimo FROM resultados ACT WHERE  ACT.nomina = a.nomina ), (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min')   )) as porcentaje_minimo,
+            (COALESCE( (SELECT TOP 1 porcentaje_minimo_jefe FROM resultados ACT WHERE  ACT.nomina = a.nomina ), (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min') )) as porcentaje_minimo_jefe
+
                 FROM admon_sueldos a
                 INNER JOIN Empleados b
                 on a.nomina = b.nomina
@@ -270,8 +272,9 @@ namespace Backend.Controllers
                         ),
                         2
                     ) AS PorcIncrementoSugerido,
-                (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min') as porcentaje_minimo,
-                (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min')  as porcentaje_minimo_jefe
+            (COALESCE( (SELECT TOP 1 porcentaje_minimo FROM resultados ACT WHERE  ACT.nomina = a.nomina ), (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min')   )) as porcentaje_minimo,
+            (COALESCE( (SELECT TOP 1 porcentaje_minimo_jefe FROM resultados ACT WHERE  ACT.nomina = a.nomina ), (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min') )) as porcentaje_minimo_jefe
+
 
                 FROM admon_sueldos a
                 INNER JOIN Empleados b
@@ -413,8 +416,9 @@ namespace Backend.Controllers
                         ),
                         2
                     ) AS PorcIncrementoSugerido,
-                (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min') as porcentaje_minimo,
-                (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min')  as porcentaje_minimo_jefe
+            (COALESCE( (SELECT TOP 1 porcentaje_minimo FROM resultados ACT WHERE  ACT.nomina = a.nomina ), (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min')   )) as porcentaje_minimo,
+            (COALESCE( (SELECT TOP 1 porcentaje_minimo_jefe FROM resultados ACT WHERE  ACT.nomina = a.nomina ), (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min') )) as porcentaje_minimo_jefe
+
 
                 FROM admon_sueldos a
                 INNER JOIN Empleados b
@@ -467,8 +471,9 @@ namespace Backend.Controllers
                         ),
                         2
                     ) AS PorcIncrementoSugerido,
-                (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min') as porcentaje_minimo,
-                (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min')  as porcentaje_minimo_jefe
+            (COALESCE( (SELECT TOP 1 porcentaje_minimo FROM resultados ACT WHERE  ACT.nomina = a.nomina ), (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min')   )) as porcentaje_minimo,
+            (COALESCE( (SELECT TOP 1 porcentaje_minimo_jefe FROM resultados ACT WHERE  ACT.nomina = a.nomina ), (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min') )) as porcentaje_minimo_jefe
+
                 FROM admon_sueldos a
                 INNER JOIN Empleados b
                     ON a.nomina = b.nomina
@@ -567,9 +572,6 @@ namespace Backend.Controllers
 
             if (resultadoDb == null)
                 return NotFound();
-
-            Console.WriteLine("elefante "+ resultado.porcentaje_minimo);
-            Console.WriteLine("elefante " + resultado.porcentaje_minimo_jefe);
 
             // Solo actualiza lo necesario
             resultadoDb.PorcentajeMinimo = resultado.porcentaje_minimo;
