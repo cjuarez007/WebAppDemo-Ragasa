@@ -11,11 +11,7 @@ export class AdmonSueldosService {
   constructor(private http: HttpClient) {}
 
   private headers = new HttpHeaders({
-    "key":"Content-Type",
-    "value":"application/json",
-    "description":"",
-    "type":"default",
-    "enabled":"true"
+    'Content-Type': 'application/json'
   });
 
   public addAdmonSueldos(payload: AdmonSueldo[]): Observable<any> {

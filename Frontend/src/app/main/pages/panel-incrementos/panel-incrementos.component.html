@@ -34,7 +34,7 @@
 
     <hr>
 
-    <div class="resumen-grid">
+    <div class="resumen-grid porcentajes">
 
       <div class="resumen-item">
         <span class="label">Aumento total sugerido</span>
@@ -102,7 +102,7 @@
               <th>Aumento Otorgado</th>
               <th>Aumento Otorgado Jefe</th>
               <th>Sueldo Mes Nuevo</th>            
-              <th>Acciones</th>
+              <th *ngIf="supJefe">Acciones</th>              
             </tr>
           </ng-template>
     
@@ -197,21 +197,23 @@
                 <!-- justificacion jefe -->
                 <td>                                                  
                   <div *ngIf="(supJefe == false && (editing && jefe.Nomina !== nomina) && requiereJustificacion(jefe.porcentaje_minimo))" class="mt-2">
-                    <textarea
-                      pInputTextarea
-                      rows="2"                    
-                      placeholder="Explique el motivo del aumento fuera de rango">
-                    </textarea>
+                    <textarea 
+                    pTextarea  
+                    pSize="small" 
+                    placeholder="Explique el motivo del aumento fuera de rango" 
+                    rows="3"
+                    style="text-align: left; vertical-align: top;"></textarea>
                   </div>
-                </td>      
+                </td>              
                 <!-- justificacion super jefe  -->
                 <td>                                                  
                   <div *ngIf="(supJefe == true && (editing && jefe.Nomina !== nomina) && requiereJustificacion(jefe.porcentaje_minimo_jefe))" class="mt-2">
-                    <textarea
-                      pInputTextarea
-                      rows="2"                    
-                      placeholder="Explique el motivo del aumento fuera de rango">
-                    </textarea>
+                    <textarea 
+                    pTextarea  
+                    pSize="small" 
+                    placeholder="Explique el motivo del aumento fuera de rango" 
+                    rows="3"
+                    style="text-align: left; vertical-align: top;"></textarea>
                   </div>
                 </td>      
             </tr>
@@ -241,11 +243,11 @@
             styleClass="w-full">
           </p-dropdown>
 
-          <button
+          <!-- <button
             pButton
             label="Mostrar todo"
             class="incrementos-btn">
-          </button>
+          </button> -->
         </div>
       </div>
 
@@ -374,21 +376,24 @@
                 <!-- justificacion jefe -->
                 <td>                                                  
                   <div *ngIf="(supJefe == false && (editing && empleado.Nomina !== nomina) && requiereJustificacion(empleado.porcentaje_minimo))" class="mt-2">
-                    <textarea
-                      pInputTextarea
-                      rows="2"                    
-                      placeholder="Explique el motivo del aumento fuera de rango">
-                    </textarea>
+                    <textarea 
+                    pTextarea  
+                    pSize="small" 
+                    placeholder="Explique el motivo del aumento fuera de rango" 
+                    rows="3"
+                    style="text-align: left; vertical-align: top;"></textarea>
                   </div>
                 </td>      
+                
                 <!-- justificacion super jefe  -->
                 <td>                                                  
                   <div *ngIf="(supJefe == true && (editing && empleado.Nomina !== nomina) && requiereJustificacion(empleado.porcentaje_minimo_jefe))" class="mt-2">
-                    <textarea
-                      pInputTextarea
-                      rows="2"                    
-                      placeholder="Explique el motivo del aumento fuera de rango">
-                    </textarea>
+                    <textarea 
+                    pTextarea  
+                    pSize="small" 
+                    placeholder="Explique el motivo del aumento fuera de rango" 
+                    rows="3"
+                    style="text-align: left; vertical-align: top;"></textarea>
                   </div>
                 </td>          
 

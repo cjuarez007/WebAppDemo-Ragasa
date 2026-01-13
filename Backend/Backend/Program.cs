@@ -50,8 +50,6 @@ builder.Services.AddDbContext<DBC_porcentajes_estandar>(options =>
 
 var app = builder.Build();
 
-app.UseCors("AllowAngular");
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -59,7 +57,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseCors("AllowAngular");
+
+// Solo redirigir a HTTPS en producción
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 app.UseAuthorization();
 

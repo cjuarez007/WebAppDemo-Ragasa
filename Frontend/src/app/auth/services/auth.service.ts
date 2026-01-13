@@ -12,15 +12,11 @@ export class AuthService {
   constructor(private httpClient : HttpClient) { }
 
   private headers = new HttpHeaders({
-    "key":"Content-Type",
-    "value":"application/json",
-    "description":"",
-    "type":"default",
-    "enabled":"true"
+    'Content-Type': 'application/json'
   });
 
   public login(user : User):Observable<UserRes>{
     console.log(user)
-    return this.httpClient.post<UserRes>('http://localhost:5094/api/UsuariosConreoller/login', user, {headers: this.headers})
+    return this.httpClient.post<UserRes>('http://localhost:5094/api/Usuarios/login', user, {headers: this.headers})
   }
 }
