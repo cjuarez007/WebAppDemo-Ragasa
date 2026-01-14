@@ -24,4 +24,6 @@ export interface IncrementosRes {
     PorcIncrementoSugerido: number;
     porcentaje_minimo: number;
     porcentaje_minimo_jefe: number;
+    JustificacionJefe?: string;
+    JustificacionSuperJefe?: string;
 }

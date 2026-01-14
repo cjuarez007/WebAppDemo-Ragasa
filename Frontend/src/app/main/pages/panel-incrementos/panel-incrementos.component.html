@@ -27,10 +27,34 @@
 <h1 class="page-title">{{nomina}}</h1> -->
 
 <p-card class="section-card" header="Proceso de Administración de Sueldos 2025.">
-    <p class="m-0">
-      <strong>Gerencia Área 1 y 2</strong> <br>
-      Hola {{ nombre }}, estas en el panel de control de los incrementos Ragasa.
-    </p>    
+    <div class="contenedorSuperior">
+      <p class="m-0">
+        <strong>Gerencia Área 1 y 2</strong> <br>
+        Hola {{ nombre }}, estas en el panel de control de los incrementos Ragasa.
+      </p>    
+  
+      <div *ngIf="supJefe" class="porcentajesJefe">
+        <div *ngIf="supJefe" class="resumen-item maxp caja">
+          <span class="labelJ">Porcentaje Jefe <br>Maximo</span>
+          <div>
+            <span class="valorJ jefe">
+              {{ (porcentajesEstandar[3].Valor/100) | percent:'1.1-1'}}
+            </span>
+          </div>      
+          <span class="labelJ">Monto total: <br>${{ totalSueldosExcedente-(totalSueldosSugeridos - totalSueldos) | number:'1.2-2' }}</span>
+        </div>
+        
+        <div *ngIf="supJefe" class="resumen-item maxp caja">
+          <span class="labelJ">Porcentaje Jefe <br>Actual</span>
+          <div>
+            <span class="valorJ jefe">
+              {{ porcentajeJefe(((totalSueldosSugeridos / totalSueldos - 1)*100), ((totalSueldosOtorgado / totalSueldos - 1)*100)) | percent:'1.1-1'}}
+            </span>      
+          </div>
+          <span class="labelJ">Monto total: <br>${{ totalSueldosExcedenteActual(((totalSueldosSugeridos / totalSueldos - 1)*100), ((totalSueldosOtorgado / totalSueldos - 1)*100)) | number:'1.2-2' }}</span>
+        </div>  
+      </div>
+    </div>
 
     <hr>
 
@@ -45,15 +69,15 @@
         <!-- <span class="label">Monto total: ${{totalSueldosSugeridos}} - {{totalSueldos}}</span> -->
       </div>
       
-      <div class="resumen-item">
+      <div class="resumen-item maxp">
         <span class="label">Aumento Minimo</span>
         <span class="valor porcentajes">
           {{ porcentajesEstandar[0].Valor / 100 | percent:'1.1-1' }}
         </span>
         <!-- <span class="label">Monto total: ${{ (porcentajesEstandar[0].Valor - totalSueldos) | number:'1.2-2' }}</span> -->
       </div>
-
-      <div class="resumen-item">
+      
+      <div class="resumen-item minp">
         <span class="label">Aumento Maximo</span>
         <span class="valor porcentajes">
           {{ porcentajesEstandar[1].Valor / 100 | percent:'1.1-1' }}
@@ -102,7 +126,9 @@
               <th>Aumento Otorgado</th>
               <th>Aumento Otorgado Jefe</th>
               <th>Sueldo Mes Nuevo</th>            
-              <th *ngIf="supJefe">Acciones</th>              
+              <th>Acciones</th>   
+              <th>Justificacion Directo</th>         
+              <th>Justificacion Jefe</th>         
             </tr>
           </ng-template>
     
@@ -134,11 +160,12 @@
                       [(ngModel)]="jefe.porcentaje_minimo"                    
                       [disabled]="supJefe == true"
                       min="0"
-                      max="100" />
+                      max="100"
+                      (blur)="onPorcentajeBlur(jefe.Nomina, jefe.porcentaje_minimo, 'jefe', true)" />
                   </ng-template>
                   <ng-template pTemplate="output">
                     {{ jefe.porcentaje_minimo }} %
-                  </ng-template>
+                  </ng-template>                  
                 </p-cellEditor>
               </td>
               
@@ -152,11 +179,12 @@
                       [(ngModel)]="jefe.porcentaje_minimo_jefe"                    
                       [disabled]="supJefe == false"
                       min="0"
-                      max="100" />
+                      max="100"
+                      (blur)="onPorcentajeBlur(jefe.Nomina, jefe.porcentaje_minimo_jefe, 'superJefe', true)" />
                   </ng-template>
                   <ng-template pTemplate="output">
                     {{ jefe.porcentaje_minimo_jefe }} %
-                  </ng-template>
+                  </ng-template>                  
                 </p-cellEditor>            
               </td>              
     
@@ -179,7 +207,7 @@
                     pButton
                     icon="pi pi-check"
                     pSaveEditableRow
-                    class="p-button-text p-button-sm p-button-success"
+                    class="p-button-text p-button-sm p-button-success"                  
                     (click)="guardarFila(jefe)">
                   </button>
                 
@@ -196,24 +224,38 @@
                 
                 <!-- justificacion jefe -->
                 <td>                                                  
-                  <div *ngIf="(supJefe == false && (editing && jefe.Nomina !== nomina) && requiereJustificacion(jefe.porcentaje_minimo))" class="mt-2">
+                  <div *ngIf="!supJefe && ((editing && jefe.Nomina !== nomina) && (requiereJustificacion(jefe.porcentaje_minimo) || jefe.JustificacionJefe))" class="mt-2">
                     <textarea 
+                    [id]="'justificacion-jefe-' + jefe.Nomina"
                     pTextarea  
                     pSize="small" 
                     placeholder="Explique el motivo del aumento fuera de rango" 
                     rows="3"
-                    style="text-align: left; vertical-align: top;"></textarea>
+                    style="text-align: left; vertical-align: top;"
+                    [(ngModel)]="jefe.JustificacionJefe"
+                    (focus)="textareasParaFocus.delete('justificacion-jefe-' + jefe.Nomina)"
+                    ></textarea>
+                  </div>
+                  <div *ngIf="(!editing && jefe.JustificacionJefe)" class="mt-2">
+                    <small style="color: #666; white-space: pre-wrap;">{{ jefe.JustificacionJefe }}</small>
                   </div>
                 </td>              
                 <!-- justificacion super jefe  -->
                 <td>                                                  
-                  <div *ngIf="(supJefe == true && (editing && jefe.Nomina !== nomina) && requiereJustificacion(jefe.porcentaje_minimo_jefe))" class="mt-2">
+                  <div *ngIf="supJefe && ((editing && jefe.Nomina !== nomina) && (requiereJustificacion(jefe.porcentaje_minimo_jefe) || jefe.JustificacionSuperJefe))" class="mt-2">
                     <textarea 
+                    [id]="'justificacion-super-jefe-' + jefe.Nomina"
                     pTextarea  
                     pSize="small" 
                     placeholder="Explique el motivo del aumento fuera de rango" 
                     rows="3"
-                    style="text-align: left; vertical-align: top;"></textarea>
+                    style="text-align: left; vertical-align: top;"
+                    [(ngModel)]="jefe.JustificacionSuperJefe"
+                    (focus)="textareasParaFocus.delete('justificacion-super-jefe-' + jefe.Nomina)"
+                    ></textarea>
+                  </div>
+                  <div *ngIf="(!editing && jefe.JustificacionSuperJefe)" class="mt-2">
+                    <small style="color: #666; white-space: pre-wrap;">{{ jefe.JustificacionSuperJefe }}</small>
                   </div>
                 </td>      
             </tr>
@@ -279,6 +321,8 @@
               <th>Aumento Otorgado Jefe</th>
               <th>Sueldo Mes Nuevo</th>            
               <th>Acciones</th>
+              <th>Justificacion Directo</th>         
+              <th>Justificacion Jefe</th>       
             </tr>
           </ng-template>
 
@@ -302,9 +346,7 @@
               <td>
                 ${{ empleado.SueldoMensual * (1 + empleado.PorcIncrementoSugerido / 100) | number:'1.2-2' }}
               </td>
-              
-                
-
+                            
               <td>
                 <p-cellEditor>
                   <ng-template pTemplate="input">
@@ -314,11 +356,12 @@
                       [(ngModel)]="empleado.porcentaje_minimo"                    
                       [disabled]="supJefe == true"
                       min="0"
-                      max="100" />
+                      max="100"
+                      (blur)="onPorcentajeBlur(empleado.Nomina, empleado.porcentaje_minimo, 'jefe', false)" />
                   </ng-template>
                   <ng-template pTemplate="output">
                     {{ empleado.porcentaje_minimo }} %
-                  </ng-template>
+                  </ng-template>                  
                 </p-cellEditor>
               </td>
 
@@ -331,11 +374,12 @@
                       [(ngModel)]="empleado.porcentaje_minimo_jefe"                    
                       [disabled]="supJefe == false"
                       min="0"
-                      max="100" />
+                      max="100"
+                      (blur)="onPorcentajeBlur(empleado.Nomina, empleado.porcentaje_minimo_jefe, 'superJefe', false)" />
                   </ng-template>
                   <ng-template pTemplate="output">
                     {{ empleado.porcentaje_minimo_jefe }} %
-                  </ng-template>
+                  </ng-template>                  
                 </p-cellEditor>
               </td>
                 
@@ -360,7 +404,8 @@
                     icon="pi pi-check"
                     pSaveEditableRow
                     class="p-button-text p-button-sm p-button-success"
-                    (click)="guardarFila(empleado)">
+                    (click)="guardarFila(empleado)"                    
+                    >
                   </button>
                 
                   <!-- CANCELAR -->
@@ -375,28 +420,40 @@
                 
                 <!-- justificacion jefe -->
                 <td>                                                  
-                  <div *ngIf="(supJefe == false && (editing && empleado.Nomina !== nomina) && requiereJustificacion(empleado.porcentaje_minimo))" class="mt-2">
+                  <div *ngIf="!supJefe && ((editing && empleado.Nomina !== nomina) && (requiereJustificacion(empleado.porcentaje_minimo) || empleado.JustificacionJefe))" class="mt-2">
                     <textarea 
+                    [id]="'justificacion-jefe-empleado-' + empleado.Nomina"
                     pTextarea  
                     pSize="small" 
                     placeholder="Explique el motivo del aumento fuera de rango" 
                     rows="3"
-                    style="text-align: left; vertical-align: top;"></textarea>
+                    style="text-align: left; vertical-align: top;"
+                    [(ngModel)]="empleado.JustificacionJefe"
+                    (focus)="textareasParaFocus.delete('justificacion-jefe-empleado-' + empleado.Nomina)"
+                    ></textarea>
                   </div>
-                </td>      
-                
+                  <div *ngIf="!editing && empleado.JustificacionJefe" class="mt-2">
+                    <small style="color: #666; white-space: pre-wrap;">{{ empleado.JustificacionJefe }}</small>
+                  </div>
+                </td>                      
                 <!-- justificacion super jefe  -->
                 <td>                                                  
-                  <div *ngIf="(supJefe == true && (editing && empleado.Nomina !== nomina) && requiereJustificacion(empleado.porcentaje_minimo_jefe))" class="mt-2">
+                  <div *ngIf="supJefe &&(editing && empleado.Nomina !== nomina) && (requiereJustificacion(empleado.porcentaje_minimo_jefe) || empleado.JustificacionSuperJefe)" class="mt-2">
                     <textarea 
+                    [id]="'justificacion-super-jefe-empleado-' + empleado.Nomina"
                     pTextarea  
                     pSize="small" 
                     placeholder="Explique el motivo del aumento fuera de rango" 
                     rows="3"
-                    style="text-align: left; vertical-align: top;"></textarea>
+                    style="text-align: left; vertical-align: top;"
+                    [(ngModel)]="empleado.JustificacionSuperJefe"
+                    (focus)="textareasParaFocus.delete('justificacion-super-jefe-empleado-' + empleado.Nomina)"
+                    ></textarea>
+                  </div>
+                  <div *ngIf="!editing && empleado.JustificacionSuperJefe" class="mt-2">
+                    <small style="color: #666; white-space: pre-wrap;">{{ empleado.JustificacionSuperJefe }}</small>
                   </div>
                 </td>          
-
             </tr>
           </ng-template>
         </p-table>

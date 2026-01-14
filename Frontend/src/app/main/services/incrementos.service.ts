@@ -11,11 +11,7 @@ export class IncrementosService {
   constructor(private httpClient : HttpClient) { }
 
   private headers = new HttpHeaders({
-    "key":"Content-Type",
-    "value":"application/json",
-    "description":"",
-    "type":"default",
-    "enabled":"true"
+    'Content-Type': 'application/json'
   });
 
 

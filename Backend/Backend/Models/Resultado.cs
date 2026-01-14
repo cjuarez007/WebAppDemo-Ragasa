@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -87,4 +87,8 @@ public partial class Resultado
     public decimal? PorcentajeMinimo { get; set; }
 
     public decimal? PorcentajeMinimoJefe { get; set; }
+
+    public string? JustificacionJefe { get; set; }
+
+    public string? JustificacionSuperJefe { get; set; }
 }

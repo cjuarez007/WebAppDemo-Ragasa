@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Backend.Models;
 using Microsoft.EntityFrameworkCore;
@@ -139,6 +139,14 @@ public partial class DBC_resultados : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("vacio2");
+            entity.Property(e => e.JustificacionJefe)
+                .HasMaxLength(500)
+                .IsUnicode(false)
+                .HasColumnName("justificacion_jefe");
+            entity.Property(e => e.JustificacionSuperJefe)
+                .HasMaxLength(500)
+                .IsUnicode(false)
+                .HasColumnName("justificacion_super_jefe");
         });
 
         OnModelCreatingPartial(modelBuilder);

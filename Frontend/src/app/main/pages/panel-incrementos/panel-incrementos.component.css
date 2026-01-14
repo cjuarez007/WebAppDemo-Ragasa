@@ -74,6 +74,12 @@ h1{
   margin-bottom: 0.25rem;
 }
 
+.labelJefe {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-bottom: 0.25rem;
+}
+
 .valor {
   font-size: 2rem;
   font-weight: 600;
@@ -90,6 +96,60 @@ h1{
 .valor.porcentajes{
   color: #beb910;
 }
+
+.valor.jefe{
+  color: #52e0b3;
+}
+
+
+
+
+/* ----------------------------------------------- */
+.contenedorSuperior {
+  display: flex;
+  justify-content: space-between; /* Empuja un grupo a la izquierda y otro a la derecha */
+  align-items: center; 
+  gap: 2rem;
+  width: 100%;
+  padding: 0.5rem 0; /* Compacta el espacio arriba y abajo */
+}
+
+.contenedorSuperior p {
+  flex: 1; /* Toma el espacio disponible a la izquierda */
+  margin: 0;
+}
+
+.porcentajesJefe {
+  display: flex;       /* Alinea los dos cuadros de porcentaje de forma horizontal */
+  gap: 1rem;           /* Espacio entre el cuadro 1 y el cuadro 2 */
+  flex: 0 0 auto;      /* No permite que se estire, solo ocupa lo que necesita */
+  border: 1px solid #e0e0e0;
+  padding: 0.6rem;
+  border-radius: 8px;
+  background-color: #fdfdfd;
+}
+
+.resumen-item.caja {
+  padding: 0 10px;        /* Espaciado interno mínimo */
+  border-right: 1px solid #eee; /* Separador sutil entre los dos porcentajes */
+}
+
+.resumen-item.caja:last-child {
+  border-right: none;     /* Quitamos el borde al último elemento */
+}
+
+.valorJ {
+  font-size: 1.4rem;      /* Reducimos de 2rem a 1.4rem para compactar altura */
+  font-weight: 700;
+  display: block;
+}
+
+.labelJ {
+  font-size: 0.75rem;     /* Un poco más pequeño */
+  margin-bottom: 0;
+}
+
+
 
 :host ::ng-deep .fila-verde {
   background-color: #7fe1a1 !important; /* verde suave */
@@ -129,7 +189,24 @@ h1{
     font-size: 1.5rem;
   }
   .porcentajes{
-    display: contents;
+    display: contents;   
+    padding: 10px; 
+  }
+  .maxp{    
+    border-top: 1px solid gray;
+  }
+  .minp{
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
+  }
+
+  .contenedorSuperior {
+    flex-direction: column;
+  }
+
+  .porcentajesJefe {
+    text-align: left;
+    width: 100%;
   }
 }
   

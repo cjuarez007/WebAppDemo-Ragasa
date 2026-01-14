@@ -1,4 +1,4 @@
-﻿using Backend.Data;
+using Backend.Data;
 using Backend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -74,7 +74,9 @@ namespace Backend.Controllers
                     2
                 ) AS PorcIncrementoSugerido,
             (COALESCE( (SELECT TOP 1 porcentaje_minimo FROM resultados ACT WHERE  ACT.nomina = a.nomina ), (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min')   )) as porcentaje_minimo,
-            (COALESCE( (SELECT TOP 1 porcentaje_minimo_jefe FROM resultados ACT WHERE  ACT.nomina = a.nomina ), (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min') )) as porcentaje_minimo_jefe
+            (COALESCE( (SELECT TOP 1 porcentaje_minimo_jefe FROM resultados ACT WHERE  ACT.nomina = a.nomina ), (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min') )) as porcentaje_minimo_jefe,
+            (SELECT TOP 1 justificacion_jefe FROM resultados ACT WHERE  ACT.nomina = a.nomina ) as JustificacionJefe,
+            (SELECT TOP 1 justificacion_super_jefe FROM resultados ACT WHERE  ACT.nomina = a.nomina ) as JustificacionSuperJefe
 
 
             FROM admon_sueldos a
@@ -152,7 +154,13 @@ namespace Backend.Controllers
                                           : reader.GetDecimal(reader.GetOrdinal("porcentaje_minimo")),
                                 porcentaje_minimo_jefe = reader.IsDBNull(reader.GetOrdinal("porcentaje_minimo_jefe"))
                                           ? null
-                                          : reader.GetDecimal(reader.GetOrdinal("porcentaje_minimo_jefe"))
+                                          : reader.GetDecimal(reader.GetOrdinal("porcentaje_minimo_jefe")),
+                                JustificacionJefe = reader.IsDBNull(reader.GetOrdinal("JustificacionJefe"))
+                                          ? null
+                                          : reader.GetString(reader.GetOrdinal("JustificacionJefe")),
+                                JustificacionSuperJefe = reader.IsDBNull(reader.GetOrdinal("JustificacionSuperJefe"))
+                                          ? null
+                                          : reader.GetString(reader.GetOrdinal("JustificacionSuperJefe"))
                             });
                         }
                     }
@@ -218,7 +226,9 @@ namespace Backend.Controllers
                         2
                     ) AS PorcIncrementoSugerido,
             (COALESCE( (SELECT TOP 1 porcentaje_minimo FROM resultados ACT WHERE  ACT.nomina = a.nomina ), (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min')   )) as porcentaje_minimo,
-            (COALESCE( (SELECT TOP 1 porcentaje_minimo_jefe FROM resultados ACT WHERE  ACT.nomina = a.nomina ), (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min') )) as porcentaje_minimo_jefe
+            (COALESCE( (SELECT TOP 1 porcentaje_minimo_jefe FROM resultados ACT WHERE  ACT.nomina = a.nomina ), (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min') )) as porcentaje_minimo_jefe,
+            (SELECT TOP 1 justificacion_jefe FROM resultados ACT WHERE  ACT.nomina = a.nomina ) as JustificacionJefe,
+            (SELECT TOP 1 justificacion_super_jefe FROM resultados ACT WHERE  ACT.nomina = a.nomina ) as JustificacionSuperJefe
 
                 FROM admon_sueldos a
                 INNER JOIN Empleados b
@@ -273,7 +283,9 @@ namespace Backend.Controllers
                         2
                     ) AS PorcIncrementoSugerido,
             (COALESCE( (SELECT TOP 1 porcentaje_minimo FROM resultados ACT WHERE  ACT.nomina = a.nomina ), (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min')   )) as porcentaje_minimo,
-            (COALESCE( (SELECT TOP 1 porcentaje_minimo_jefe FROM resultados ACT WHERE  ACT.nomina = a.nomina ), (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min') )) as porcentaje_minimo_jefe
+            (COALESCE( (SELECT TOP 1 porcentaje_minimo_jefe FROM resultados ACT WHERE  ACT.nomina = a.nomina ), (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min') )) as porcentaje_minimo_jefe,
+            (SELECT TOP 1 justificacion_jefe FROM resultados ACT WHERE  ACT.nomina = a.nomina ) as JustificacionJefe,
+            (SELECT TOP 1 justificacion_super_jefe FROM resultados ACT WHERE  ACT.nomina = a.nomina ) as JustificacionSuperJefe
 
 
                 FROM admon_sueldos a
@@ -352,7 +364,13 @@ namespace Backend.Controllers
                                           : reader.GetDecimal(reader.GetOrdinal("porcentaje_minimo")),
                                 porcentaje_minimo_jefe = reader.IsDBNull(reader.GetOrdinal("porcentaje_minimo_jefe"))
                                           ? null
-                                          : reader.GetDecimal(reader.GetOrdinal("porcentaje_minimo_jefe"))
+                                          : reader.GetDecimal(reader.GetOrdinal("porcentaje_minimo_jefe")),
+                                JustificacionJefe = reader.IsDBNull(reader.GetOrdinal("JustificacionJefe"))
+                                          ? null
+                                          : reader.GetString(reader.GetOrdinal("JustificacionJefe")),
+                                JustificacionSuperJefe = reader.IsDBNull(reader.GetOrdinal("JustificacionSuperJefe"))
+                                          ? null
+                                          : reader.GetString(reader.GetOrdinal("JustificacionSuperJefe"))
                             });
                         }
                     }
@@ -417,7 +435,9 @@ namespace Backend.Controllers
                         2
                     ) AS PorcIncrementoSugerido,
             (COALESCE( (SELECT TOP 1 porcentaje_minimo FROM resultados ACT WHERE  ACT.nomina = a.nomina ), (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min')   )) as porcentaje_minimo,
-            (COALESCE( (SELECT TOP 1 porcentaje_minimo_jefe FROM resultados ACT WHERE  ACT.nomina = a.nomina ), (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min') )) as porcentaje_minimo_jefe
+            (COALESCE( (SELECT TOP 1 porcentaje_minimo_jefe FROM resultados ACT WHERE  ACT.nomina = a.nomina ), (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min') )) as porcentaje_minimo_jefe,
+            (SELECT TOP 1 justificacion_jefe FROM resultados ACT WHERE  ACT.nomina = a.nomina ) as JustificacionJefe,
+            (SELECT TOP 1 justificacion_super_jefe FROM resultados ACT WHERE  ACT.nomina = a.nomina ) as JustificacionSuperJefe
 
 
                 FROM admon_sueldos a
@@ -472,7 +492,9 @@ namespace Backend.Controllers
                         2
                     ) AS PorcIncrementoSugerido,
             (COALESCE( (SELECT TOP 1 porcentaje_minimo FROM resultados ACT WHERE  ACT.nomina = a.nomina ), (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min')   )) as porcentaje_minimo,
-            (COALESCE( (SELECT TOP 1 porcentaje_minimo_jefe FROM resultados ACT WHERE  ACT.nomina = a.nomina ), (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min') )) as porcentaje_minimo_jefe
+            (COALESCE( (SELECT TOP 1 porcentaje_minimo_jefe FROM resultados ACT WHERE  ACT.nomina = a.nomina ), (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min') )) as porcentaje_minimo_jefe,
+            (SELECT TOP 1 justificacion_jefe FROM resultados ACT WHERE  ACT.nomina = a.nomina ) as JustificacionJefe,
+            (SELECT TOP 1 justificacion_super_jefe FROM resultados ACT WHERE  ACT.nomina = a.nomina ) as JustificacionSuperJefe
 
                 FROM admon_sueldos a
                 INNER JOIN Empleados b
@@ -578,7 +600,18 @@ namespace Backend.Controllers
             resultadoDb.PorcentajeMinimoJefe = resultado.porcentaje_minimo_jefe;
             resultadoDb.Sueldodiario = resultado.SueldoDiario;
             resultadoDb.Sueldonuevo = resultado.SueldoNuevo;
-            resultadoDb.Sueldomensual= resultado.SueldoMensual;
+            resultadoDb.Sueldomensual= resultado.SueldoMensual;            
+            if (resultado.JustificacionJefe != null)
+            {
+                resultadoDb.JustificacionJefe = resultado.JustificacionJefe;
+            }
+
+            // Actualizar justificación del super jefe SOLO si viene
+            if (resultado.JustificacionSuperJefe != null)
+            {
+                resultadoDb.JustificacionSuperJefe = resultado.JustificacionSuperJefe;
+            }
+
 
             await _contextResultado.SaveChangesAsync();
 
@@ -644,6 +677,7 @@ namespace Backend.Controllers
 
         public decimal? porcentaje_minimo { get; set; }
         public decimal? porcentaje_minimo_jefe { get; set; }
-        // agrega otras columnas que necesites
+        public string? JustificacionJefe { get; set; }
+        public string? JustificacionSuperJefe { get; set; }
     }
 }

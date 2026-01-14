@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, inject, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { UserRes } from '../../../auth/interfaces/user-res';
 import { IncrementosRes } from '../../interfaces/incrementos-res';
 import { HttpClient } from '@angular/common/http';
@@ -10,21 +10,29 @@ import autoTable from 'jspdf-autotable';
 import { PorcentajesEstandarService } from '../../services/porcentajes-estandar.service';
 import { PorcentajesEstandar } from '../../interfaces/porcentajes-estandar';
 
+
+// import { FileUploadService } from '../../services/FileUploadService';
+
 @Component({
   selector: 'app-panel-incrementos',
   templateUrl: './panel-incrementos.component.html',
   styleUrl: './panel-incrementos.component.css'
 })
-export class PanelIncrementosComponent implements OnInit{
+export class PanelIncrementosComponent implements OnInit, AfterViewChecked{
+
   private svIncrementos = inject(IncrementosService);
   private svPorcentajesEstandar = inject(PorcentajesEstandarService)
+  private cdr = inject(ChangeDetectorRef)
+  private http = inject(HttpClient);
+  
+  public textareasParaFocus: Set<string> = new Set();
   
   public user : UserRes | null = null;  
-  public jefes: IncrementosRes[] = [];
-  public empleados: IncrementosRes[] = [];
+  public jefes: IncrementosRes[] = [];  
   public nomina: number = 0;
   public supJefe: boolean = false;
   public nombre:string = "";
+  public excedente:number = 0;
 
   public porcentajesEstandar: PorcentajesEstandar[] = [];
 
@@ -33,14 +41,48 @@ export class PanelIncrementosComponent implements OnInit{
   empleadosOriginal: IncrementosRes[] = [];
   empleadosFiltrados: IncrementosRes[] = [];
 
+  // public sendPDF(){
+  //   //Nomrbearchivo, contenedor.
+  //   const blobName = "reporte_prueba.pdf";
+  //   const rutaCarpeta ="Frontend\src\assets\control_incrementos.pdf";
+
+
+  //   const containerSasUrl =
+  //     "https://stlabsoinf.blob.core.windows.net/test-ragasa/"+blobName+"?sp=racwd&st=2026-01-13T22:37:51Z&se=2026-03-31T06:52:51Z&spr=https&sv=2024-11-04&sr=c&sig=zyfcodcsG9CGfI2ZscmkhwNvUZdi3DE2uD1VCEyVbiU%3D";
+  //   // Ruta local del PDF
+  //   const rutaArchivo = path.join(rutaCarpeta, blobName);
+
+  //   async function main() {
+  //   const uploadService = new FileUploadService(containerSasUrl);
+
+  //   uploadService.uploadPdf(rutaArchivo).catch(console.error);
+
+  //     console.log("✅ PDF subido correctamente");
+  //   }
+
+  //   main().catch(console.error);
+
+  // }
+  
   guardarFila(empleado: IncrementosRes) {
-    empleado.SueldoNuevo = empleado.SueldoMensual*(1+empleado.porcentaje_minimo_jefe)
+    if (!this.puedeGuardar(empleado)) {
+      alert('Debe proporcionar una justificación antes de guardar');
+      return;
+    }
+  
+    // Asegurar que el sueldo se calcule bien antes de enviar
+    empleado.SueldoNuevo = empleado.SueldoMensual * (1 + (empleado.porcentaje_minimo_jefe / 100));
+  
     this.svIncrementos.actualizarEmpleado(empleado).subscribe({
       next: res => {
-        console.log('Empleado actualizado:', res);
-        // Opcional: mostrar mensaje de éxito
+        console.log('Actualizado correctamente');
+        // Sincronizar con la lista original para que no se pierda al filtrar/desfiltrar
+        const index = this.empleadosOriginal.findIndex(e => e.Nomina === empleado.Nomina);
+        if (index !== -1) {
+          this.empleadosOriginal[index] = { ...empleado };
+        }
       },
-      error: err => console.error('Error al actualizar:', err)
+      error: err => console.error('Error:', err)
     });
   }
 
@@ -58,9 +100,12 @@ export class PanelIncrementosComponent implements OnInit{
 
     this.svIncrementos.getJefesIncrementos(this.nomina).subscribe(
       (res) => {
-        console.log('Jefes recibidos:', res);
-        this.jefes = res;
-        console.log('Jefes asignados:', this.jefes);
+        this.jefes = res.map(j => ({
+          ...j,
+          JustificacionJefe: j.JustificacionJefe ?? '',
+          JustificacionSuperJefe: j.JustificacionSuperJefe ?? ''
+        }));
+    
         this.marcarFilasAleatorias(this.jefes);
       },
       (error) => {
@@ -70,11 +115,18 @@ export class PanelIncrementosComponent implements OnInit{
 
     this.svIncrementos.getEmpleadosIncrementos(this.nomina).subscribe(
       (res) => {
-        this.empleadosOriginal = res;
-        this.empleadosFiltrados = res;
+        this.empleadosOriginal = res.map(e => ({
+          ...e,
+          JustificacionJefe: e.JustificacionJefe ?? '',
+          JustificacionSuperJefe: e.JustificacionSuperJefe ?? ''
+        }));
+    
+        this.empleadosFiltrados = [...this.empleadosOriginal];
+    
         this.marcarFilasAleatorias(this.empleadosFiltrados);
-      }      
+      }
     );
+    
 
     this.svIncrementos.getUserIncrementos(this.nomina).subscribe(
       res => this.nombre = res[0].Nombre
@@ -211,11 +263,111 @@ export class PanelIncrementosComponent implements OnInit{
     return totalJefes + totalEmpleados;
   }
 
+  get totalSueldosExcedente(): number {    
+    const totalJefes = this.jefes?.reduce(
+      (sum, j) => sum + ((j.SueldoMensual * (1 + (j.PorcIncrementoSugerido+this.porcentajesEstandar[3].Valor) / 100)) || 0),
+      0
+    ) || 0;
+  
+    const totalEmpleados = this.empleadosOriginal?.reduce(
+      (sum, e) => sum + ((e.SueldoMensual * (1 + (e.PorcIncrementoSugerido+this.porcentajesEstandar[3].Valor) / 100)) || 0),
+      0
+    ) || 0;
+  
+    return (totalJefes + totalEmpleados) - this.totalSueldos;
+  }
+
+  public totalSueldosExcedenteActual(sugerido:number, asignado:number): number {    
+    const totalJefes = this.jefes?.reduce(
+      (sum, j) => sum + ((j.SueldoMensual * (1 + (j.PorcIncrementoSugerido+this.porcentajeJefe(sugerido, asignado)) / 100)) || 0),
+      0
+    ) || 0;
+  
+    const totalEmpleados = this.empleadosOriginal?.reduce(
+      (sum, e) => sum + ((e.SueldoMensual * (1 + (e.PorcIncrementoSugerido+this.porcentajeJefe(sugerido, asignado)) / 100)) || 0),
+      0
+    ) || 0;
+  
+    const exc:number = (this.totalSueldosOtorgado - this.totalSueldos) - (this.totalSueldosSugeridos - this.totalSueldos);    
+    
+    return (this.totalSueldosExcedente-(this.totalSueldosSugeridos - this.totalSueldos)) - exc;
+  }
+
+  public porcentajeJefe(sugerido:number, asignado:number): number{
+    if (asignado > sugerido){
+      this.excedente = asignado - sugerido;
+    }
+    else{
+      return this.porcentajesEstandar[3].Valor/100;
+    }
+
+    return (this.porcentajesEstandar[3].Valor - this.excedente)/100;
+  }
+
   public marcarFilasAleatorias(lista: any[]) {
-    lista.forEach(item => {
-      // 30% de probabilidad de pintarse
+    lista.forEach(item => {      
       item._highlight = Math.random() < 0.3;
     });
+  }
+
+  // Método para hacer focus en textarea cuando aparece
+  focusTextarea(id: string) {
+    this.textareasParaFocus.add(id);
+  }
+
+  // Método que se ejecuta cuando se sale del campo de porcentaje
+  onPorcentajeBlur(nomina: number, porcentaje: number, tipo: 'jefe' | 'superJefe', esJefe: boolean) {
+    if (this.requiereJustificacion(porcentaje)) {
+      // Coincidir con el ID del HTML: 'justificacion-jefe-empleado-123'
+      const suffix = esJefe ? '' : '-empleado'; 
+      const id = tipo === 'jefe' 
+                 ? `justificacion-jefe${suffix}-${nomina}` 
+                 : `justificacion-super-jefe${suffix}-${nomina}`;
+  
+      const puedeEditar = (tipo === 'jefe' && !this.supJefe) || (tipo === 'superJefe' && this.supJefe);
+      if (puedeEditar) {
+        this.focusTextarea(id);
+      }
+    }
+  }
+  
+
+  // Método para verificar si se puede guardar (si requiere justificación, debe estar completa)
+  puedeGuardar(item: IncrementosRes): boolean {
+    // Si es super jefe, verifica la justificación del super jefe
+    if (this.supJefe) {
+      if (this.requiereJustificacion(item.porcentaje_minimo_jefe)) {
+        return !!(item.JustificacionSuperJefe && item.JustificacionSuperJefe.trim().length > 0);
+      }
+    } else {
+      // Si es jefe normal, verifica la justificación del jefe
+      if (this.requiereJustificacion(item.porcentaje_minimo)) {
+        return !!(item.JustificacionJefe && item.JustificacionJefe.trim().length > 0);
+      }
+    }
+    // Si no requiere justificación, se puede guardar
+    return true;
+  }
+
+  ngAfterViewChecked(): void {
+    // Hacer focus en los textareas que están pendientes
+    if (this.textareasParaFocus.size > 0) {
+      const idsToFocus = Array.from(this.textareasParaFocus);
+      this.textareasParaFocus.clear();
+      
+      idsToFocus.forEach(id => {
+        setTimeout(() => {
+          const textarea = document.getElementById(id) as HTMLTextAreaElement;
+          if (textarea && document.activeElement !== textarea && textarea.offsetParent !== null) {
+            try {
+              textarea.focus();
+            } catch (e) {
+              // Ignorar errores de focus
+            }
+          }
+        }, 200);
+      });
+    }
   }
   
 }
