@@ -438,8 +438,6 @@ namespace Backend.Controllers
             (COALESCE( (SELECT TOP 1 porcentaje_minimo_jefe FROM resultados ACT WHERE  ACT.nomina = a.nomina ), (SELECT top 1 valor FROM porcentajes_estandar WHERE variable = 'min') )) as porcentaje_minimo_jefe,
             (SELECT TOP 1 justificacion_jefe FROM resultados ACT WHERE  ACT.nomina = a.nomina ) as JustificacionJefe,
             (SELECT TOP 1 justificacion_super_jefe FROM resultados ACT WHERE  ACT.nomina = a.nomina ) as JustificacionSuperJefe
-
-
                 FROM admon_sueldos a
                 INNER JOIN Empleados b
                     ON a.nomina = b.nomina
@@ -571,11 +569,13 @@ namespace Backend.Controllers
                                           : reader.GetDecimal(reader.GetOrdinal("porcentaje_minimo")),
                                 porcentaje_minimo_jefe = reader.IsDBNull(reader.GetOrdinal("porcentaje_minimo_jefe"))
                                           ? null
-                                          : reader.GetDecimal(reader.GetOrdinal("porcentaje_minimo_jefe"))
-
-
-
-
+                                          : reader.GetDecimal(reader.GetOrdinal("porcentaje_minimo_jefe")),
+                                JustificacionJefe = reader.IsDBNull(reader.GetOrdinal("JustificacionJefe"))
+                                          ? null
+                                          : reader.GetString(reader.GetOrdinal("JustificacionJefe")),
+                                JustificacionSuperJefe = reader.IsDBNull(reader.GetOrdinal("JustificacionSuperJefe"))
+                                          ? null
+                                          : reader.GetString(reader.GetOrdinal("JustificacionSuperJefe"))
                             });
                         }
                     }

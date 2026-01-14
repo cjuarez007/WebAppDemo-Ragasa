@@ -361,8 +361,7 @@ export class PanelIncrementosComponent implements OnInit, AfterViewChecked{
           if (textarea && document.activeElement !== textarea && textarea.offsetParent !== null) {
             try {
               textarea.focus();
-            } catch (e) {
-              // Ignorar errores de focus
+            } catch (e) {              
             }
           }
         }, 200);
