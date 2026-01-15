@@ -159,7 +159,8 @@
                       [(ngModel)]="jefe.porcentaje_minimo"                    
                       [disabled]="supJefe == true"
                       min="0"
-                      max="100"
+                      max="10000"
+                      (ngModelChange)="verificarLimpiezaTexto(jefe, false)"              
                       (blur)="onPorcentajeBlur(jefe.Nomina, jefe.porcentaje_minimo, 'jefe', true)" />
                   </ng-template>
                   <ng-template pTemplate="output">
@@ -178,7 +179,8 @@
                       [(ngModel)]="jefe.porcentaje_minimo_jefe"                    
                       [disabled]="supJefe == false"
                       min="0"
-                      max="100"
+                      max="10000"
+                      (ngModelChange)="verificarLimpiezaTexto(jefe, true)"                                    
                       (blur)="onPorcentajeBlur(jefe.Nomina, jefe.porcentaje_minimo_jefe, 'superJefe', true)" />
                   </ng-template>
                   <ng-template pTemplate="output">
@@ -232,7 +234,7 @@
                     rows="3"
                     style="text-align: left; vertical-align: top;"
                     [(ngModel)]="jefe.JustificacionJefe"
-                    (focus)="textareasParaFocus.delete('justificacion-jefe-' + jefe.Nomina)"
+                    (focus)="textareasParaFocus.delete('justificacion-jefe-' + jefe.Nomina)"                    
                     ></textarea>
                   </div>
                   <div *ngIf="(!editing && jefe.JustificacionJefe)" class="mt-2">
@@ -250,7 +252,7 @@
                     rows="3"
                     style="text-align: left; vertical-align: top;"
                     [(ngModel)]="jefe.JustificacionSuperJefe"
-                    (focus)="textareasParaFocus.delete('justificacion-super-jefe-' + jefe.Nomina)"
+                    (focus)="textareasParaFocus.delete('justificacion-super-jefe-' + jefe.Nomina)"                    
                     ></textarea>
                   </div>
                   <div *ngIf="(!editing && jefe.JustificacionSuperJefe)" class="mt-2">
@@ -275,13 +277,22 @@
         <div class="filtro-controles">
           <p-dropdown
             [options]="jefes"
-            optionLabel="Nomina"
+            optionLabel= "Nomina - Nombre"
             optionValue="Nomina"
             placeholder="Seleccione un jefe"
             [(ngModel)]="jefeSeleccionado"
             (onChange)="filtrarEmpleadosPorJefe()"
             [showClear]="true"
             styleClass="w-full">
+            <ng-template let-jefe pTemplate="item">
+              {{jefe.Puesto}}: {{ jefe.Nomina }} - {{ jefe.Nombre }}
+            </ng-template>
+          
+            <ng-template let-jefe pTemplate="selectedItem">
+              <span *ngIf="jefe">
+                {{jefe.Puesto}}: {{ jefe.Nomina }} - {{ jefe.Nombre }}
+              </span>
+            </ng-template>
           </p-dropdown>
 
           <!-- <button
@@ -355,7 +366,8 @@
                       [(ngModel)]="empleado.porcentaje_minimo"                    
                       [disabled]="supJefe == true"
                       min="0"
-                      max="100"
+                      max="10000"
+                      (ngModelChange)="verificarLimpiezaTexto(empleado, false)"              
                       (blur)="onPorcentajeBlur(empleado.Nomina, empleado.porcentaje_minimo, 'jefe', false)" />
                   </ng-template>
                   <ng-template pTemplate="output">
@@ -373,7 +385,8 @@
                       [(ngModel)]="empleado.porcentaje_minimo_jefe"                    
                       [disabled]="supJefe == false"
                       min="0"
-                      max="100"
+                      max="10000"
+                      (ngModelChange)="verificarLimpiezaTexto(empleado, true)"
                       (blur)="onPorcentajeBlur(empleado.Nomina, empleado.porcentaje_minimo_jefe, 'superJefe', false)" />
                   </ng-template>
                   <ng-template pTemplate="output">
@@ -426,9 +439,9 @@
                     pSize="small" 
                     placeholder="Explique el motivo del aumento fuera de rango" 
                     rows="3"
-                    style="text-align: left; vertical-align: top;"
+                    style="text-align: left; vertical-align: top;"                    
                     [(ngModel)]="empleado.JustificacionJefe"
-                    (focus)="textareasParaFocus.delete('justificacion-jefe-empleado-' + empleado.Nomina)"
+                    (focus)="textareasParaFocus.delete('justificacion-jefe-empleado-' + empleado.Nomina)"                          
                     ></textarea>
                   </div>
                   <div *ngIf="!editing && empleado.JustificacionJefe" class="mt-2">
@@ -444,9 +457,9 @@
                     pSize="small" 
                     placeholder="Explique el motivo del aumento fuera de rango" 
                     rows="3"
-                    style="text-align: left; vertical-align: top;"
+                    style="text-align: left; vertical-align: top;"                    
                     [(ngModel)]="empleado.JustificacionSuperJefe"
-                    (focus)="textareasParaFocus.delete('justificacion-super-jefe-empleado-' + empleado.Nomina)"
+                    (focus)="textareasParaFocus.delete('justificacion-super-jefe-empleado-' + empleado.Nomina)"                    
                     ></textarea>
                   </div>
                   <div *ngIf="!editing && empleado.JustificacionSuperJefe" class="mt-2">

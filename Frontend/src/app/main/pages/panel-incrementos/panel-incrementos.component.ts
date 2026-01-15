@@ -10,8 +10,10 @@ import autoTable from 'jspdf-autotable';
 import { PorcentajesEstandarService } from '../../services/porcentajes-estandar.service';
 import { PorcentajesEstandar } from '../../interfaces/porcentajes-estandar';
 
+import { FileUploadService } from '../../services/FileUploadService';
+import { EnvioCorreoService } from '../../services/envio-correo.service';
 
-// import { FileUploadService } from '../../services/FileUploadService';
+
 
 @Component({
   selector: 'app-panel-incrementos',
@@ -24,6 +26,7 @@ export class PanelIncrementosComponent implements OnInit, AfterViewChecked{
   private svPorcentajesEstandar = inject(PorcentajesEstandarService)
   private cdr = inject(ChangeDetectorRef)
   private http = inject(HttpClient);
+  private SvEnvioCorreo = inject(EnvioCorreoService)
   
   public textareasParaFocus: Set<string> = new Set();
   
@@ -41,28 +44,30 @@ export class PanelIncrementosComponent implements OnInit, AfterViewChecked{
   empleadosOriginal: IncrementosRes[] = [];
   empleadosFiltrados: IncrementosRes[] = [];
 
-  // public sendPDF(){
-  //   //Nomrbearchivo, contenedor.
-  //   const blobName = "reporte_prueba.pdf";
-  //   const rutaCarpeta ="Frontend\src\assets\control_incrementos.pdf";
-
-
-  //   const containerSasUrl =
-  //     "https://stlabsoinf.blob.core.windows.net/test-ragasa/"+blobName+"?sp=racwd&st=2026-01-13T22:37:51Z&se=2026-03-31T06:52:51Z&spr=https&sv=2024-11-04&sr=c&sig=zyfcodcsG9CGfI2ZscmkhwNvUZdi3DE2uD1VCEyVbiU%3D";
-  //   // Ruta local del PDF
-  //   const rutaArchivo = path.join(rutaCarpeta, blobName);
-
-  //   async function main() {
-  //   const uploadService = new FileUploadService(containerSasUrl);
-
-  //   uploadService.uploadPdf(rutaArchivo).catch(console.error);
-
-  //     console.log("✅ PDF subido correctamente");
-  //   }
-
-  //   main().catch(console.error);
-
-  // }
+  public sendPDF() {
+    const blobName = "Aumento Salarial 2026.pdf";
+    // La ruta en Angular para archivos en assets es relativa a la raíz del sitio
+    const rutaAssets = "assets/control_incrementos.pdf"; 
+  
+    const containerSasUrl =
+      "https://stlabsoinf.blob.core.windows.net/test-ragasa/" + blobName + "?sp=racwd&st=2026-01-13T22:37:51Z&se=2026-03-31T06:52:51Z&spr=https&sv=2024-11-04&sr=c&sig=zyfcodcsG9CGfI2ZscmkhwNvUZdi3DE2uD1VCEyVbiU%3D";
+  
+    // 1. Obtenemos el archivo de la carpeta assets como un BLOB
+    this.http.get(rutaAssets, { responseType: 'blob' }).subscribe({
+      next: async (archivoBlob) => {
+        try {
+          const uploadService = new FileUploadService(containerSasUrl);
+          await uploadService.uploadPdf(archivoBlob);
+          console.log("✅ PDF subido correctamente desde assets");
+        } catch (error) {
+          console.error("❌ Error al subir a Azure:", error);
+        }
+      },
+      error: (err) => {
+        console.error("❌ No se pudo encontrar el archivo en assets. Revisa la ruta.", err);
+      }
+    });
+  }
   
   guardarFila(empleado: IncrementosRes) {
     if (!this.puedeGuardar(empleado)) {
@@ -143,6 +148,21 @@ export class PanelIncrementosComponent implements OnInit, AfterViewChecked{
     return porcentaje < this.porcentajesEstandar[0].Valor || porcentaje > this.porcentajesEstandar[1].Valor;
   }
 
+  verificarLimpiezaTexto(empleado: IncrementosRes, supJefe:boolean) {    
+    
+    if (supJefe) {
+      if(!this.requiereJustificacion(empleado.porcentaje_minimo_jefe)){
+        empleado.JustificacionSuperJefe = "";
+      }      
+    }
+    else{
+      if(!this.requiereJustificacion(empleado.porcentaje_minimo)){
+        empleado.JustificacionJefe = "";
+      }      
+    }
+        
+  }
+
   filtrarEmpleadosPorJefe() {
     if (!this.jefeSeleccionado) {
       this.empleadosFiltrados = this.empleadosOriginal;
@@ -215,6 +235,12 @@ export class PanelIncrementosComponent implements OnInit, AfterViewChecked{
     }
     
     doc.save('control_incrementos.pdf');
+
+    this.sendPDF()
+    this.SvEnvioCorreo.enviarNotificacionPdf("cjuarez@exsoinf.com", 'Aumento Salarial 2026.pdf').subscribe({
+      next: (res) => console.log('✅ ¡Logic App recibida!', res),
+      error: (err) => console.error('❌ Error detallado:', err)
+    });
   }
   
   get totalSueldos(): number {
