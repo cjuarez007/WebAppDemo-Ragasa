@@ -58,9 +58,9 @@ export class PanelIncrementosComponent implements OnInit, AfterViewChecked{
         try {
           const uploadService = new FileUploadService(containerSasUrl);
           await uploadService.uploadPdf(archivoBlob);
-          console.log("✅ PDF subido correctamente desde assets");
+          // console.log("✅ PDF subido correctamente desde assets");
         } catch (error) {
-          console.error("❌ Error al subir a Azure:", error);
+          // console.error("❌ Error al subir a Azure:", error);
         }
       },
       error: (err) => {
@@ -94,8 +94,7 @@ export class PanelIncrementosComponent implements OnInit, AfterViewChecked{
   ngOnInit(): void {
     if(localStorage.getItem('user')) {
       this.user = JSON.parse(localStorage.getItem('user')!)  
-      if (this.user != null){
-        console.log(this.user)        
+      if (this.user != null){        
         this.nomina = this.user.usuario.NominaId; 
         if(this.user.usuario.RolId == 1){
           this.supJefe = true; 
@@ -237,9 +236,9 @@ export class PanelIncrementosComponent implements OnInit, AfterViewChecked{
     doc.save('control_incrementos.pdf');
 
     this.sendPDF()
-    this.SvEnvioCorreo.enviarNotificacionPdf("cjuarez@exsoinf.com", 'Aumento Salarial 2026.pdf').subscribe({
-      next: (res) => console.log('✅ ¡Logic App recibida!', res),
-      error: (err) => console.error('❌ Error detallado:', err)
+    this.SvEnvioCorreo.enviarNotificacionPdf("ediaz@exsoinf.com", 'Aumento Salarial 2026.pdf').subscribe({
+      next: (res) => console.log('¡Logic App recibida!', res),
+      error: (err) => console.error('Error detallado:', err)
     });
   }
   
